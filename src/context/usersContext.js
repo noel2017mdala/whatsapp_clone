@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import contacts from "data/contacts";
-import socket from "../socket";
 
 const UsersContext = createContext();
 
@@ -29,13 +28,13 @@ const UsersProvider = ({ children }) => {
     };
 
     userObject.messages.TODAY.push(newMsgObject);
-    socket.emit("sendMessage", userObject);
-    // return;
     setUsers(temp);
   };
 
   return (
-    <UsersContext.Provider value={{ users, setUserAsUnread, addNewMessage }}>
+    <UsersContext.Provider
+      value={{ users, setUserAsUnread, addNewMessage, Message: "Hello World" }}
+    >
       {children}
     </UsersContext.Provider>
   );

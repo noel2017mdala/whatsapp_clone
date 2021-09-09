@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "./styles/main.css";
 import avatar from "assets/images/profile-picture-girl-1.jpeg";
 import Icon from "components/Icon";
 import Alert from "./Alert";
 import Contact from "./Contact";
+import { fetchContactList } from "../../Redux/Actions/fetchUser";
+import { getLastMessage } from "../../Redux/Actions/MessagesAction";
 import OptionsBtn from "components/OptionsButton";
 import { useUsersContext } from "context/usersContext";
 
 const Sidebar = () => {
-  const { users: contacts } = useUsersContext();
+  const dispatch = useDispatch();
+  const { users: contacts, Message } = useUsersContext();
+
+  useEffect(() => {
+    dispatch(fetchContactList());
+    dispatch(getLastMessage());
+  }, [dispatch]);
+
+  const select = useSelector((e) => {
+    return e;
+  });
+
   return (
     <aside className="sidebar">
       <header className="header">
@@ -53,10 +67,19 @@ const Sidebar = () => {
         </div>
         <input className="search" placeholder="Search or start a new chat" />
       </div>
+
       <div className="sidebar__contacts">
-        {contacts.map((contact, index) => (
-          <Contact key={index} contact={contact} />
-        ))}
+        {!select.fetchContactList
+          ? null
+          : !select.fetchContactList.data
+          ? null
+          : select.fetchContactList.data.map((contact, index) => (
+              <Contact
+                key={index}
+                contact={contact}
+                lastMessage={select.MessageReducer.data}
+              />
+            ))}
       </div>
     </aside>
   );
