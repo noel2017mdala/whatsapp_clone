@@ -2,7 +2,7 @@ import { GET_LAST_MESSAGE } from "../Actions/MessagesAction";
 
 const initialState = {};
 
-const state = (state = initialState, action) => {
+const lastMessage = (state = initialState, action) => {
   switch (action.type) {
     case GET_LAST_MESSAGE:
       return {
@@ -14,4 +14,4 @@ const state = (state = initialState, action) => {
   }
 };
 
-export default state;
+export default lastMessage;

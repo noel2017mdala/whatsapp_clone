@@ -539,12 +539,12 @@
 }
 
 .profile__avatar-wrapper {
-  width: 200px;
-  width: 200px;
+  height: 10em;
+  width: 10em;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  cursor: pointer;
 }
 
 .profile__name {

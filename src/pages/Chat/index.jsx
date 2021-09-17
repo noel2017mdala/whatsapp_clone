@@ -27,9 +27,21 @@ const Chat = ({ match, history }) => {
   const [showSearchSidebar, setShowSearchSidebar] = useState(false);
   const [newMessage, setNewMessage] = useState("");
 
-  let user = select.fetchContactList.data.filter(
-    (user) => user.id === userId
-  )[0];
+  let user = !select.fetchContactList
+    ? console.log("not done loading")
+    : false
+    ? false
+    : select;
+
+  // if (!select) {
+  //   console.log("Loading");
+  // } else if (!select.fetchContactList) {
+  //   console.log("Still Loading");
+  // } else if (!select.fetchContactList.data) {
+  //   console.log("Not yet done");
+  // } else {
+  //   console.log(select.fetchContactList.data);
+  // }
 
   useEffect(() => {
     if (!user) {
@@ -53,16 +65,98 @@ const Chat = ({ match, history }) => {
     lastMsgRef.current.scrollIntoView();
   };
 
+  const submitNewMessage = () => {
+    addNewMessage(user.id, newMessage);
+    setNewMessage("");
+    scrollToLastMsg();
+  };
+
   return (
     <div className="chat">
       <div className="chat__body">
         <div className="chat__bg"></div>
-        <Header
-          user={user}
-          openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
-          openSearchSidebar={() => openSidebar(setShowSearchSidebar)}
-        />
+        {!user ? null : !user.fetchContactList ? null : !user.fetchContactList
+            .data ? null : (
+          <Header
+            user={
+              user.fetchContactList.data.filter((user) => {
+                if (user) {
+                  return user.id === userId;
+                }
+              })[0]
+            }
+            openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
+            openSearchSidebar={() => openSidebar(setShowSearchSidebar)}
+          />
+        )}
+        <div className="chat__content">
+          <Convo lastMsgRef={lastMsgRef} messages={user.MessageReducer.data} />
+        </div>
+        <footer className="chat__footer">
+          <button
+            className="chat__scroll-btn"
+            aria-label="scroll down"
+            onClick={scrollToLastMsg}
+          >
+            <Icon id="downArrow" />
+          </button>
+          <EmojiTray
+            showEmojis={showEmojis}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+          />
+          <ChatInput
+            showEmojis={showEmojis}
+            setShowEmojis={setShowEmojis}
+            showAttach={showAttach}
+            setShowAttach={setShowAttach}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            submitNewMessage={submitNewMessage}
+          />
+        </footer>
       </div>
+      <ChatSidebar
+        heading="Search Messages"
+        active={showSearchSidebar}
+        closeSidebar={() => setShowSearchSidebar(false)}
+      >
+        <Search />
+      </ChatSidebar>
+
+      <ChatSidebar
+        heading="Contact Info"
+        active={showProfileSidebar}
+        closeSidebar={() => setShowProfileSidebar(false)}
+      >
+        {/* <Profile
+          user={
+            !select.fetchContactList
+              ? null
+              : !select.fetchContactList.data
+              ? null
+              : select.fetchContactList.data.filter((user) => {
+                  return user.id === userId;
+                })[0]
+          }
+          history={history}
+        /> */}
+
+        {!user ? null : !user.fetchContactList ? null : !user.fetchContactList
+            .data ? null : (
+          <Profile
+            user={
+              user.fetchContactList.data.filter((user) => {
+                if (user) {
+                  return user.id === userId;
+                }
+              })[0]
+            }
+            openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
+            openSearchSidebar={() => openSidebar(setShowSearchSidebar)}
+          />
+        )}
+      </ChatSidebar>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import "./styles/main.css";
 import avatar from "assets/images/profile-picture-girl-1.jpeg";
 import Icon from "components/Icon";
 import Alert from "./Alert";
-import Contact from "./Contact";
+import GetContact from "./getContacts";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
 import { getLastMessage } from "../../Redux/Actions/MessagesAction";
 import OptionsBtn from "components/OptionsButton";
@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     dispatch(fetchContactList());
-    dispatch(getLastMessage());
+    // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
   }, [dispatch]);
 
   const select = useSelector((e) => {
@@ -73,11 +73,14 @@ const Sidebar = () => {
           ? null
           : !select.fetchContactList.data
           ? null
+          : !select.fetchContactList.data
+          ? null
           : select.fetchContactList.data.map((contact, index) => (
-              <Contact
+              <GetContact
                 key={index}
                 contact={contact}
-                lastMessage={select.MessageReducer.data}
+                index={index}
+                // lastMessage={select.MessageReducer.data}
               />
             ))}
       </div>
