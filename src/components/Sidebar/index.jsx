@@ -4,9 +4,9 @@ import "./styles/main.css";
 import avatar from "assets/images/profile-picture-girl-1.jpeg";
 import Icon from "components/Icon";
 import Alert from "./Alert";
+import Contact from "./Contact";
 import GetContact from "./getContacts";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
-import { getLastMessage } from "../../Redux/Actions/MessagesAction";
 import OptionsBtn from "components/OptionsButton";
 import { useUsersContext } from "context/usersContext";
 
@@ -22,7 +22,6 @@ const Sidebar = () => {
   const select = useSelector((e) => {
     return e;
   });
-
   return (
     <aside className="sidebar">
       <header className="header">
@@ -76,12 +75,7 @@ const Sidebar = () => {
           : !select.fetchContactList.data
           ? null
           : select.fetchContactList.data.map((contact, index) => (
-              <GetContact
-                key={index}
-                contact={contact}
-                index={index}
-                // lastMessage={select.MessageReducer.data}
-              />
+              <GetContact key={index} userData={contact} />
             ))}
       </div>
     </aside>

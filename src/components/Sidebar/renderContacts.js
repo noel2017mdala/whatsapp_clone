@@ -5,10 +5,6 @@ import Icon from "components/Icon";
 import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
 const RenderContacts = ({ contact }) => {
-  contact.UserLastMessage.map((e) => {
-    console.log(e.messageStatus);
-  });
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (contact) {
@@ -19,11 +15,17 @@ const RenderContacts = ({ contact }) => {
     return e.MessageReducer;
   });
 
-  // if (select.data && contact.id === select.data.to) {
-  //   console.log(
-  //     `ID: ${contact.id} MESSAGE: ${select.data.messagesBody} TIME: ${select.data.timeSent}`
-  //   );
-  // }
+  // const getLastMessage = (user_id) => {
+  //   let collectData = [];
+  //   if (select.data) {
+  //     select.data.map((e) => {
+  //       if (user_id === e.to) {
+  //         collectData.push(e);
+  //       }
+  //     });
+  //   }
+  // };
+
   return (
     <div>
       <Link
