@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Loader from "./components/Loader";
 import Home from "./pages/Home";
 import Sidebar from "components/Sidebar";
+import Login from "./Authentication/";
 import Chat from "./pages/Chat";
-// import socket from "./socket";
+import socket from "./socket";
 
 const userPrefersDark =
   window.matchMedia &&
@@ -27,13 +28,6 @@ function App() {
 
   if (!appLoaded) return <Loader done={startLoadProgress} />;
 
-  // socket.on("Message", (msg) => {
-  //   console.log(msg);
-  // });
-
-  // socket.on("userJoin", (msg) => {
-  //   console.log(msg);
-  // });
   return (
     <div className="app">
       <p className="app__mobile-message"> Only available on desktop 😊. </p>

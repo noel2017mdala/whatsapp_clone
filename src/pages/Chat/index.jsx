@@ -63,7 +63,6 @@ const Chat = ({ match, history }) => {
     scrollToLastMsg();
   };
 
-  // .MessageReducer.data
   return (
     <>
       <div className="chat">

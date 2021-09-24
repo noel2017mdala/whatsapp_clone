@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import rootReducer from "Redux/Reducers";
+import Login from "./Authentication/";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
@@ -19,13 +20,13 @@ const middleware = [thunk];
 //   )
 // );
 
+let demo = false;
+
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <UsersProvider>
-        <App />
-      </UsersProvider>
+      <UsersProvider>{demo ? <App /> : <Login />}</UsersProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -3,7 +3,6 @@ import { GET_LAST_MESSAGE, GET_ALL_MESSAGE } from "../Actions/MessagesAction";
 const initialState = {};
 
 const lastMessage = (state = initialState, action) => {
-  console.log("Ndafika");
   switch (action.type) {
     case GET_LAST_MESSAGE:
       return {

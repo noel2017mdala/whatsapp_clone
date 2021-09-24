@@ -1,9 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import Icon from "components/Icon";
 import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
+import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 const GetContact = ({ userData }) => {
-  console.log(userData);
+  const dispatch = useDispatch();
+
+  const dispatchAction = (id) => {
+    dispatch(getAllMessages(id));
+  };
+
   return (
     <>
       {!userData ? (
@@ -12,6 +19,9 @@ const GetContact = ({ userData }) => {
         <Link
           className="sidebar-contact"
           to={`/chat/${userData.userDetails._id}`}
+          onClick={() => {
+            dispatchAction(userData.userDetails._id);
+          }}
           // onClick={() => setUserAsUnread(contact.id)}
         >
           <div className="sidebar-contact__avatar-wrapper">

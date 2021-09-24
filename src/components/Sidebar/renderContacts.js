@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getLastMessage } from "../../Redux/Actions/MessagesAction";
+import {
+  getLastMessage,
+  getAllMessages,
+} from "../../Redux/Actions/MessagesAction";
 import Icon from "components/Icon";
 import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
@@ -26,11 +29,16 @@ const RenderContacts = ({ contact }) => {
   //   }
   // };
 
+  const dispatchAction = () => {
+    console.log("Action Dispatched successfully");
+  };
+
   return (
     <div>
       <Link
         className="sidebar-contact"
         to={`/chat/${contact.id}`}
+        onClick={dispatchAction}
         // onClick={() => setUserAsUnread(contact.id)}
       >
         <div className="sidebar-contact__avatar-wrapper">
