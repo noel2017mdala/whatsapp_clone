@@ -29,6 +29,7 @@ export const Header = styled.header`
 
 export const Main = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 120vh;
   background-color: #d6dbd7;
+  overflow: scroll;
 `;

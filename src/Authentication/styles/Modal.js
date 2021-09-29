@@ -11,10 +11,11 @@ export const Modal = styled.div`
   width: 70%;
   display: block;
   margin 0 auto;
-  height: 90vh;
+  height: 140vh;
   border-radius: .2em;
   position: relative;
   bottom: 7em;
+ 
 
   .container{
       display: flex;
@@ -55,5 +56,39 @@ export const Modal = styled.div`
     display: block;
     margin: 0 auto;
 
+}
+
+.tab_container{
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+}
+.formContainer {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 2em;
+}
+
+.formContainer form label {
+    text-transform: uppercase;
+}
+.formContainer form input{
+    display: block;
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0em;
+    border-radius: .5em;
+    border: .1em solid black;
+}
+.formContainer form button{
+    display: block;
+    margin: 0 auto;
+    color: white;
+    padding: 1em 3em;
+    border-radius: 0.5em;
+    background-color #00BFA5;
+    background-image linear-gradient(315deg, #00BFA5 100%);
+    text-transform: uppercase;
 }
 `;

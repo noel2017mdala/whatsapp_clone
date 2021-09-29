@@ -15,7 +15,7 @@ const Form = () => {
           <Tabs
             value={SelectedTab}
             onChange={handleChange}
-            indicatorColor="primary"
+            indicatorColor="inherit"
             textColor="primary"
             centered
             TabIndicatorProps={{
