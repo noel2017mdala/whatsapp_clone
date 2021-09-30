@@ -6,16 +6,21 @@ import Icon from "components/Icon";
 import Alert from "./Alert";
 import Contact from "./Contact";
 import GetContact from "./getContacts";
+import Cookie from "universal-cookie";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
 import OptionsBtn from "components/OptionsButton";
 import { useUsersContext } from "context/usersContext";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  let cookie = new Cookie();
+  let header = cookie.get("userPayLoad");
+  let userData = cookie.get("userData");
+
   const { users: contacts, Message } = useUsersContext();
 
   useEffect(() => {
-    dispatch(fetchContactList());
+    dispatch(fetchContactList(userData));
     // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
   }, [dispatch]);
 
@@ -26,7 +31,11 @@ const Sidebar = () => {
     <aside className="sidebar">
       <header className="header">
         <div className="sidebar__avatar-wrapper">
-          <img src={avatar} alt="Karen Okonkwo" className="avatar" />
+          <img
+            src={userData.profileImage}
+            alt={userData.name}
+            className="avatar"
+          />
         </div>
         <div className="sidebar__actions">
           <button className="sidebar__action" aria-label="Status">

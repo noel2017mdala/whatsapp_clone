@@ -4,14 +4,19 @@ import {
   getLastMessage,
   getAllMessages,
 } from "../../Redux/Actions/MessagesAction";
+import Cookie from "universal-cookie";
 import Icon from "components/Icon";
 import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
 const RenderContacts = ({ contact }) => {
+  let cookie = new Cookie();
+  let header = cookie.get("userPayLoad");
+  let userData = cookie.get("userData");
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (contact) {
-      dispatch(getLastMessage(contact.id));
+      dispatch(getLastMessage(userData, contact.id));
     }
   }, [dispatch]);
   const select = useSelector((e) => {

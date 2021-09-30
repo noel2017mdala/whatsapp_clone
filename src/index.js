@@ -10,6 +10,11 @@ import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import "./assets/css/index.css";
 import { UsersProvider } from "context/usersContext";
+import Cookie from "universal-cookie";
+
+let cookie = new Cookie();
+let header = cookie.get("userPayLoad");
+let userData = cookie.get("userData");
 
 const middleware = [thunk];
 // const store = createStore(
@@ -20,13 +25,11 @@ const middleware = [thunk];
 //   )
 // );
 
-let demo = false;
-
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <UsersProvider>{demo ? <App /> : <Login />}</UsersProvider>
+      <UsersProvider>{header && userData ? <App /> : <Login />}</UsersProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,4 +1,6 @@
 export const CREATE_USER = "CREATE_USER";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const createUser = (userData) => {
   let url = "http://localhost:8000/api/v1/users/createUser";
@@ -59,9 +61,10 @@ export const logIn = (userData) => {
       })
         .then((res) => {
           if (res.ok) {
+            dispatch({ type: "LOGIN" });
             console.log("user logged in successfully");
           } else {
-            console.log("Login failed");
+            dispatch({ type: "LOGOUT" });
           }
         })
         .catch((e) => {

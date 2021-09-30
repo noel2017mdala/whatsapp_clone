@@ -1,7 +1,9 @@
 export const FETCH_USER_CONTACT_LIST = "FETCH_USER_CONTACT_LIST";
 
-export const fetchContactList = () => {
-  const url = `http://localhost:8000/api/v1/users/getUser/61371b37e46bae4721e34ca5`;
+export const fetchContactList = (userId) => {
+  let id = userId._id;
+
+  const url = `http://localhost:8000/api/v1/users/getUser/${id}`;
   return async (dispatch) => {
     const response = await fetch(url);
     const resData = await response.json();

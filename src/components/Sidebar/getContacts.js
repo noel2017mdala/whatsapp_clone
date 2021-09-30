@@ -3,12 +3,16 @@ import { useDispatch } from "react-redux";
 import Icon from "components/Icon";
 import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
+import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 const GetContact = ({ userData }) => {
   const dispatch = useDispatch();
 
   const dispatchAction = (id) => {
-    dispatch(getAllMessages(id));
+    let cookie = new Cookie();
+    let header = cookie.get("userPayLoad");
+    let userData = cookie.get("userData");
+    dispatch(getAllMessages(userData, id));
   };
 
   return (

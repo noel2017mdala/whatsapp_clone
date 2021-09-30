@@ -9,17 +9,22 @@ import Icon from "components/Icon";
 import Search from "./components/Search";
 import Profile from "./components/Profile";
 import Convo from "./components/Convo";
+import Cookie from "universal-cookie";
 import { useUsersContext } from "context/usersContext";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 
 const Chat = ({ match, history }) => {
+  let cookie = new Cookie();
+  let header = cookie.get("userPayLoad");
+  let userData = cookie.get("userData");
+
   const { users, setUserAsUnread, addNewMessage } = useUsersContext();
   const dispatch = useDispatch();
   const userId = match.params.id;
 
   useEffect(() => {
     // scrollToLastMsg();
-    dispatch(getAllMessages(userId));
+    dispatch(getAllMessages(userData, userId));
   }, [dispatch]);
 
   const lastMsgRef = useRef(null);

@@ -1,9 +1,10 @@
 export const GET_LAST_MESSAGE = "GET_LAST_MESSAGE";
 export const GET_ALL_MESSAGE = "GET_ALL_MESSAGE";
 
-export const getLastMessage = (id) => {
+export const getLastMessage = (myId, id) => {
+  let userId = myId._id;
   if (id) {
-    const url = `http://localhost:8000/api/v1/chat/getFilteredMessages/61371b37e46bae4721e34ca5/${id}`;
+    const url = `http://localhost:8000/api/v1/chat/getFilteredMessages/${userId}/${id}`;
     return async (dispatch) => {
       const response = await fetch(url);
       const resData = await response.json();
@@ -14,9 +15,10 @@ export const getLastMessage = (id) => {
   }
 };
 
-export const getAllMessages = (id) => {
+export const getAllMessages = (myId, id) => {
+  let userId = myId._id;
   if (id) {
-    const url = `http://localhost:8000/api/v1/chat/getAllMessages/61371b37e46bae4721e34ca5/${id}`;
+    const url = `http://localhost:8000/api/v1/chat/getAllMessages/${userId}/${id}`;
     return async (dispatch) => {
       const response = await fetch(url);
       const resData = await response.json();
