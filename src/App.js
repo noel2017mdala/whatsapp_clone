@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Sidebar from "components/Sidebar";
 import Login from "./Authentication/";
 import Chat from "./pages/Chat";
-import socket from "./socket";
+import socket from "./socket/index";
 
 const userPrefersDark =
   window.matchMedia &&

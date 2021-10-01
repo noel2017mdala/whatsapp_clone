@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Icon from "components/Icon";
 import OptionsBtn from "components/OptionsButton";
+import socket from "../../../socket";
+
+import Cookie from "universal-cookie";
+
+let cookie = new Cookie();
+let userData = cookie.get("userData");
+
+socket.on("connect", () => {
+  socket.emit("getUserActivity", {
+    userId: userData._id,
+    socketId: socket.id,
+  });
+
+  socket.on("userLastSeenData", (data) => {
+    console.log(data);
+  });
+});
 
 const Header = ({ user, openProfileSidebar, openSearchSidebar }) => {
   return (
@@ -11,7 +28,11 @@ const Header = ({ user, openProfileSidebar, openSearchSidebar }) => {
 
       <div className="chat__contact-wrapper" onClick={openProfileSidebar}>
         <h2 className="chat__contact-name"> {user?.name}</h2>
-        <p className="chat__contact-desc"> online </p>
+        <p className="chat__contact-desc">
+          {user.userActivity.map((e) => {
+            return e.socketId ? "online" : `last seen ${e.lastSeenTime}`;
+          })}
+        </p>
       </div>
       <div className="chat__actions">
         <button
