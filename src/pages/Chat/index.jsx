@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import "./styles/main.css";
+import socket from "../../socket";
 import EmojiTray from "./components/EmojiTray";
 import ChatInput from "./components/ChatInput";
 import Header from "./components/Header";
@@ -38,6 +40,7 @@ const Chat = ({ match, history }) => {
     return e;
   });
 
+  const { id } = useParams();
   const openSidebar = (cb) => {
     // close any open sidebar first
     setShowProfileSidebar(false);
@@ -51,7 +54,22 @@ const Chat = ({ match, history }) => {
     lastMsgRef.current.scrollIntoView();
   };
 
+  // socket.on("receive-message", (message) => {
+  //   console.log(message);
+  // });
+
+  socket.on("receive-message", (message) => {
+    dispatch(getAllMessages(userData, userId));
+  });
   const submitNewMessage = () => {
+    let messageContent = {
+      from: userData._id,
+      to: id,
+      messagesBody: newMessage,
+    };
+    socket.emit("message-sent", messageContent);
+
+    return;
     addNewMessage(
       !select
         ? null

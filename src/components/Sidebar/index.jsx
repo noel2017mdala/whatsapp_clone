@@ -5,6 +5,7 @@ import avatar from "assets/images/profile-picture-girl-1.jpeg";
 import Icon from "components/Icon";
 import Alert from "./Alert";
 import Contact from "./Contact";
+import socket from "../../socket";
 import GetContact from "./getContacts";
 import Cookie from "universal-cookie";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
@@ -24,9 +25,16 @@ const Sidebar = () => {
     // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
   }, [dispatch]);
 
+  socket.on("receive-message", (message) => {
+    dispatch(fetchContactList(userData));
+  });
+
   const select = useSelector((e) => {
     return e;
   });
+
+  console.log(select);
+
   return (
     <aside className="sidebar">
       <header className="header">

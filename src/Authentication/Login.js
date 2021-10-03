@@ -21,9 +21,6 @@ const Login = () => {
     return e;
   });
 
-  let callUser = () => {
-    console.log("Mwafika");
-  };
   console.log(select.LoginValidator);
   return (
     <>
