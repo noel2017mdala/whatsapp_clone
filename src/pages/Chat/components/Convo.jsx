@@ -1,9 +1,12 @@
 import Icon from "components/Icon";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Cookie from "universal-cookie";
 import media from "assets/images/women.jpeg";
 import formatTime from "utils/formatTime";
 
-const Convo = ({ lastMsgRef, messages, userDetails }) => {
+const Convo = ({ lastMsgRef, messages, messageEndRef, scrollFunction }) => {
+  let cookie = new Cookie();
+  let userData = cookie.get("userData");
   const assignRef = (parm1, parm2) => {
     return parm1 === parm2 - 1 ? lastMsgRef : undefined;
   };
@@ -29,6 +32,10 @@ const Convo = ({ lastMsgRef, messages, userDetails }) => {
     }
   };
 
+  useEffect(() => {
+    scrollFunction();
+  }, [messages]);
+
   // let getDayOfWeek = (date) => {
   //   let days = [
   //     "Sunday",
@@ -44,7 +51,7 @@ const Convo = ({ lastMsgRef, messages, userDetails }) => {
 
   return (
     <div>
-      {!messages && !userDetails
+      {!messages
         ? null
         : messages.map((messagesData, index) => (
             <div key={index}>
@@ -69,7 +76,7 @@ const Convo = ({ lastMsgRef, messages, userDetails }) => {
                 <>
                   {messagesData.attachedImage ? (
                     "Image Was Attached"
-                  ) : messagesData.from === userDetails.id ? (
+                  ) : messagesData.from !== userData._id ? (
                     <p
                       className="chat__msg chat__msg--rxd"
                       ref={assignRef(index, messages)}
@@ -127,6 +134,7 @@ const Convo = ({ lastMsgRef, messages, userDetails }) => {
               </div>
             </div>
           ))}
+      <div ref={messageEndRef} />
     </div>
   );
 };

@@ -25,15 +25,15 @@ const Sidebar = () => {
     // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
   }, [dispatch]);
 
-  socket.on("receive-message", (message) => {
-    dispatch(fetchContactList(userData));
-  });
+  // socket.on("receive-message", (message) => {
+  //   dispatch(fetchContactList(userData));
+  // });
 
   const select = useSelector((e) => {
     return e;
   });
 
-  console.log(select);
+  // console.log(userData.unreadMessages);
 
   return (
     <aside className="sidebar">
@@ -92,7 +92,11 @@ const Sidebar = () => {
           : !select.fetchContactList.data
           ? null
           : select.fetchContactList.data.map((contact, index) => (
-              <GetContact key={index} userData={contact} />
+              <GetContact
+                key={index}
+                userData={contact}
+                notificationStatus={userData.unreadMessages}
+              />
             ))}
       </div>
     </aside>

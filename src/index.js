@@ -25,7 +25,10 @@ const middleware = [thunk];
 //   )
 // );
 
-const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
+export const store = createStore(
+  rootReducer,
+  compose(applyMiddleware(...middleware))
+);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -1,25 +1,29 @@
 import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import Icon from "components/Icon";
 import OptionsBtn from "components/OptionsButton";
 import socket from "../../../socket";
 
 import Cookie from "universal-cookie";
 
-let cookie = new Cookie();
-let userData = cookie.get("userData");
+// let cookie = new Cookie();
+// let userData = cookie.get("userData");
 
-socket.on("connect", () => {
-  socket.emit("getUserActivity", {
-    userId: userData._id,
-    socketId: socket.id,
-  });
+// socket.on("connect", () => {
+//   socket.emit("getUserActivity", {
+//     userId: userData._id,
+//     socketId: socket.id,
+//   });
 
-  socket.on("userLastSeenData", (data) => {
-    console.log(data);
-  });
-});
+//   socket.on("userLastSeenData", (data) => {
+//     console.log(data);
+//   });
+// });
 
 const Header = ({ user, openProfileSidebar, openSearchSidebar }) => {
+  // console.log(user);
+  const { id } = useParams();
   return (
     <header className="header chat__header">
       <div className="chat__avatar-wrapper" onClick={openProfileSidebar}>

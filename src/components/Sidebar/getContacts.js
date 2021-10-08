@@ -5,16 +5,28 @@ import { Link } from "react-router-dom";
 import formatTime from "utils/formatTime";
 import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
-const GetContact = ({ userData }) => {
+import { setUserChat } from "../../Redux/Actions/MessagesAction";
+const GetContact = ({ userData, notificationStatus }) => {
+  let cookie = new Cookie();
+  let header = cookie.get("userPayLoad");
+  let userInfo = cookie.get("userData");
   const dispatch = useDispatch();
+  console.log(userInfo._id);
 
   const dispatchAction = (id) => {
-    let cookie = new Cookie();
-    let header = cookie.get("userPayLoad");
-    let userData = cookie.get("userData");
-    dispatch(getAllMessages(userData, id));
+    dispatch(getAllMessages(userInfo, id));
+    dispatch(setUserChat(id, userInfo._id));
   };
 
+  // let setUserAsUnread = (senderId) => {
+  //   dispatch(setUserChat(senderId));
+  // };
+
+  // console.log(userInfo._id);
+  // console.log(userData.userDetails.unreadMessages);
+  userData.userDetails.unreadMessages.map((e) => {
+    console.log(e);
+  });
   return (
     <>
       {!userData ? (
@@ -26,7 +38,6 @@ const GetContact = ({ userData }) => {
           onClick={() => {
             dispatchAction(userData.userDetails._id);
           }}
-          // onClick={() => setUserAsUnread(contact.id)}
         >
           <div className="sidebar-contact__avatar-wrapper">
             <img
@@ -82,10 +93,17 @@ const GetContact = ({ userData }) => {
               <div className="sidebar-contact__icons">
                 {/* {contact.pinned && (
               <Icon id="pinned" className="sidebar-contact__icon" />
-            )}
-            {!!contact.unread && (
+            )} */}
+                {/* {!!contact.unread && (
               <span className="sidebar-contact__unread">{contact.unread}</span>
             )} */}
+                {userData.userDetails.unreadMessages.map((e, index) =>
+                  e.sender === userInfo._id && e.count > 0 ? (
+                    <span key={index} className="sidebar-contact__unread">
+                      {e.count}
+                    </span>
+                  ) : null
+                )}
                 <button aria-label="sidebar-contact__btn">
                   <Icon
                     id="downArrow"

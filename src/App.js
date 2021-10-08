@@ -8,9 +8,9 @@ import Login from "./Authentication/";
 import Chat from "./pages/Chat";
 import socket from "./socket/index";
 
-socket.on("receive-message", (message) => {
-  console.log(message);
-});
+// socket.on("receive-message", (message) => {
+//   console.log(message.messagesBody);
+// });
 
 const userPrefersDark =
   window.matchMedia &&

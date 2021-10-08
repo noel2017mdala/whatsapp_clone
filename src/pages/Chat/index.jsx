@@ -14,6 +14,8 @@ import Convo from "./components/Convo";
 import Cookie from "universal-cookie";
 import { useUsersContext } from "context/usersContext";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
+import socketHelper from "../../utils/socketHelper";
+import userSocketHelper from "../../utils/userSocketHelper";
 
 const Chat = ({ match, history }) => {
   let cookie = new Cookie();
@@ -23,7 +25,7 @@ const Chat = ({ match, history }) => {
   const { users, setUserAsUnread, addNewMessage } = useUsersContext();
   const dispatch = useDispatch();
   const userId = match.params.id;
-
+  const messageEndRef = useRef(null);
   useEffect(() => {
     // scrollToLastMsg();
     dispatch(getAllMessages(userData, userId));
@@ -40,50 +42,32 @@ const Chat = ({ match, history }) => {
     return e;
   });
 
+  const scrollToLast = () => {
+    messageEndRef.current?.scrollIntoView();
+  };
+
+  // const messageEndRef = useRef(null);
   const { id } = useParams();
   const openSidebar = (cb) => {
     // close any open sidebar first
     setShowProfileSidebar(false);
     setShowSearchSidebar(false);
-
-    // call callback fn
     cb(true);
   };
 
-  const scrollToLastMsg = () => {
-    lastMsgRef.current.scrollIntoView();
-  };
-
-  // socket.on("receive-message", (message) => {
-  //   console.log(message);
-  // });
-
-  socket.on("receive-message", (message) => {
-    dispatch(getAllMessages(userData, userId));
-  });
   const submitNewMessage = () => {
     let messageContent = {
       from: userData._id,
       to: id,
       messagesBody: newMessage,
     };
-    socket.emit("message-sent", messageContent);
 
-    return;
-    addNewMessage(
-      !select
-        ? null
-        : !select.MessageReducer
-        ? null
-        : !select.MessageReducer.data
-        ? null
-        : !select.MessageReducer.data.user
-        ? null
-        : select.MessageReducer.data.user.id,
-      newMessage
-    );
+    socket.emit("message-sent", messageContent, {
+      userData,
+      userId,
+    });
+
     setNewMessage("");
-    scrollToLastMsg();
   };
 
   return (
@@ -114,24 +98,15 @@ const Chat = ({ match, history }) => {
                   ? null
                   : select.MessageReducer.data.message
               }
-              userDetails={
-                !select
-                  ? null
-                  : !select.MessageReducer
-                  ? null
-                  : !select.MessageReducer.data
-                  ? null
-                  : !select.MessageReducer.data.user
-                  ? null
-                  : select.MessageReducer.data.user
-              }
+              scrollFunction={scrollToLast}
+              messageEndRef={messageEndRef}
             />
           </div>
           <footer className="chat__footer">
             <button
               className="chat__scroll-btn"
               aria-label="scroll down"
-              onClick={scrollToLastMsg}
+              onClick={scrollToLast}
             >
               <Icon id="downArrow" />
             </button>
