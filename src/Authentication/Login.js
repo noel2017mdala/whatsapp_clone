@@ -21,7 +21,6 @@ const Login = () => {
     return e;
   });
 
-  console.log(select.LoginValidator);
   return (
     <>
       {select.LoginValidator ? (

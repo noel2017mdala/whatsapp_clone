@@ -40,7 +40,6 @@ export const setUserChat = (id, senderId) => {
         senderId,
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           socket.emit("request-demo");
         }

@@ -11,22 +11,12 @@ const GetContact = ({ userData, notificationStatus }) => {
   let header = cookie.get("userPayLoad");
   let userInfo = cookie.get("userData");
   const dispatch = useDispatch();
-  console.log(userInfo._id);
 
   const dispatchAction = (id) => {
     dispatch(getAllMessages(userInfo, id));
     dispatch(setUserChat(id, userInfo._id));
   };
 
-  // let setUserAsUnread = (senderId) => {
-  //   dispatch(setUserChat(senderId));
-  // };
-
-  // console.log(userInfo._id);
-  // console.log(userData.userDetails.unreadMessages);
-  userData.userDetails.unreadMessages.map((e) => {
-    console.log(e);
-  });
   return (
     <>
       {!userData ? (
