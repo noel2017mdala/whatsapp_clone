@@ -28,11 +28,11 @@ const Login = () => {
       ) : (
         <div className="formContainer">
           <form>
-            <label for="phone number">Phone Number</label>
+            <label>Phone Number</label>
             <input
               type="number"
               name="email"
-              placeholder="Email or Number"
+              placeholder="Phone Number"
               onChange={(e) => {
                 setUi((prevState) => ({
                   ...prevState,
@@ -40,7 +40,7 @@ const Login = () => {
                 }));
               }}
             />
-            <label for="password">Password</label>
+            <label>Password</label>
             <input
               type="password"
               name="password"

@@ -85,19 +85,19 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar__contacts">
-        {!select.fetchContactList
-          ? null
-          : !select.fetchContactList.data
-          ? null
-          : !select.fetchContactList.data
-          ? null
-          : select.fetchContactList.data.map((contact, index) => (
-              <GetContact
-                key={index}
-                userData={contact}
-                notificationStatus={userData.unreadMessages}
-              />
-            ))}
+        {!select.fetchContactList ? null : !select.fetchContactList
+            .data ? null : !select.fetchContactList.data ? null : select
+            .fetchContactList.data.message ? (
+          <div className="no_chat_notification">No Chats</div>
+        ) : (
+          select.fetchContactList.data.map((contact, index) => (
+            <GetContact
+              key={index}
+              userData={contact}
+              notificationStatus={userData.unreadMessages}
+            />
+          ))
+        )}
       </div>
     </aside>
   );
