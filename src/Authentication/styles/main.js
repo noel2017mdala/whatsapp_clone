@@ -7,5 +7,5 @@ const media = {
 };
 
 const main = styled.div`
-  background-color: D6DBD7;
+  background-color: #d6dbd7;
 `;

@@ -1,5 +1,6 @@
+import axios from "axios";
 export const FETCH_USER_CONTACT_LIST = "FETCH_USER_CONTACT_LIST";
-
+export const FETCH_FULL_CONTACT_LIST = "FETCH_FULL_CONTACT_LIST";
 export const fetchContactList = (userId) => {
   let id = userId._id;
 
@@ -10,5 +11,23 @@ export const fetchContactList = (userId) => {
     let data = resData;
 
     dispatch({ type: FETCH_USER_CONTACT_LIST, payLoad: data });
+  };
+};
+
+export const fetchUserFullContactList = (id) => {
+  return async (dispatch) => {
+    const url = `http://localhost:8000/api/v1/users/getContactList/${id}`;
+    axios
+      .get(url, {
+        method: "get",
+        responseType: "stream",
+      })
+      .then((response) => {
+        dispatch({ type: FETCH_FULL_CONTACT_LIST, payLoad: response.data });
+        // console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 };
