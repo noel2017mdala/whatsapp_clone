@@ -45,6 +45,8 @@ const Sidebar = () => {
     border-color: #00bfa5;
   `;
 
+  // console.log(select.fetchContactList);
+
   return uiState ? (
     <ListChart
       parentState={{
@@ -117,7 +119,7 @@ const Sidebar = () => {
             <ClipLoader color="#00bfa5" css={override} size={30} />
           ) : !select.fetchContactList.data ? (
             <ClipLoader color="#00bfa5" css={override} size={30} />
-          ) : select.fetchContactList.data.message ? (
+          ) : select.fetchContactList.data.length < 1 ? (
             <div className="no_chat_notification">No Chats</div>
           ) : (
             select.fetchContactList.data.map((contact, index) => (

@@ -21,6 +21,10 @@
   color: rgba(241, 241, 242, 0.8);
 }
 
+.dark-theme .sidebar__contacts .no_chat_notification {
+  color: #f5f5f5;
+}
+
 .dark-theme .sidebar__alert-text:first-of-type {
   color: rgba(241, 241, 242, 0.96);
 }

@@ -14,7 +14,7 @@ const GetContact = ({ userData, notificationStatus }) => {
 
   const dispatchAction = (id) => {
     dispatch(getAllMessages(userInfo, id));
-    dispatch(setUserChat(id, userInfo._id));
+    // dispatch(setUserChat(id, userInfo._id));
   };
 
   return (
