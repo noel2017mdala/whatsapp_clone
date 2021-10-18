@@ -13,6 +13,7 @@ import Cookie from "universal-cookie";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
 import OptionsBtn from "components/OptionsButton";
 import ListChart from "./ListChat";
+import CreateContact from "./CreateContact";
 import { useUsersContext } from "context/usersContext";
 
 const Sidebar = () => {
@@ -22,7 +23,11 @@ const Sidebar = () => {
   let userData = cookie.get("userData");
 
   const { users: contacts, Message } = useUsersContext();
-  const [uiState, setUiState] = useState(false);
+  // const [uiState, setUiState] = useState(false);
+  const [createUser, setCreateUserState] = useState({
+    uiState: false,
+    newUserState: false,
+  });
 
   useEffect(() => {
     dispatch(fetchContactList(userData));
@@ -47,13 +52,21 @@ const Sidebar = () => {
 
   // console.log(select.fetchContactList);
 
-  return uiState ? (
+  return createUser.uiState ? (
     <ListChart
       parentState={{
-        state: uiState,
-        stateMethod: setUiState,
+        state: createUser,
+        stateMethod: setCreateUserState,
         userData: userData,
         compState: select,
+      }}
+    />
+  ) : createUser.newUserState ? (
+    <CreateContact
+      parentState={{
+        state: createUser,
+        stateMethod: setCreateUserState,
+        userData: userData,
       }}
     />
   ) : (
@@ -78,7 +91,11 @@ const Sidebar = () => {
               className="sidebar__action"
               aria-label="New chat"
               onClick={() => {
-                setUiState(true);
+                console.log(createUser);
+                setCreateUserState({
+                  ...createUser,
+                  uiState: true,
+                });
               }}
             >
               <Icon id="chat" className="sidebar__action-icon" />
@@ -91,13 +108,16 @@ const Sidebar = () => {
               options={[
                 "New group",
                 "New user",
-                "Create a room",
                 "Profile",
                 "Archived",
                 "Starred",
                 "Settings",
                 "Log out",
               ]}
+              parentState={{
+                state: createUser,
+                stateMethod: setCreateUserState,
+              }}
             />
           </div>
         </header>

@@ -21,7 +21,7 @@ const CreateAccount = () => {
   return (
     <div className="formContainer">
       <form>
-        <label for="name">User Name</label>
+        <label>User Name</label>
         <input
           type="text"
           name="name"
@@ -33,7 +33,7 @@ const CreateAccount = () => {
             }));
           }}
         />
-        <label for="email">Email</label>
+        <label>Email</label>
         <input
           type="email"
           name="email"
@@ -45,7 +45,7 @@ const CreateAccount = () => {
             }));
           }}
         />
-        <label for="phone number">Phone Number</label>
+        <label>Phone Number</label>
         <input
           type="number"
           name="phoneNumber"
@@ -57,7 +57,7 @@ const CreateAccount = () => {
             }));
           }}
         />
-        <label for="password">Password</label>
+        <label>Password</label>
         <input
           type="password"
           name="password"

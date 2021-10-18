@@ -87,8 +87,8 @@ export const Modal = styled.div`
     color: white;
     padding: 1em 3em;
     border-radius: 0.5em;
-    background-color #00BFA5;
-    background-image linear-gradient(315deg, #00BFA5 100%);
+    background-color: #00BFA5;
+    background-image: linear-gradient(315deg, #00BFA5 100%);
     text-transform: uppercase;
 }
 `;

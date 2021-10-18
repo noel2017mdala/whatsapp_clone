@@ -44,7 +44,12 @@ const ListChart = (props) => {
               className="back_pointer"
               id="back"
               onClick={() => {
-                stateMethod(!state);
+                // setCreateUserState(!state);
+                console.log(state);
+                stateMethod({
+                  ...state,
+                  uiState: !state.uiState,
+                });
               }}
             />
             <p>New Chat</p>
@@ -75,7 +80,10 @@ const ListChart = (props) => {
                 to={`/chat/${e._id}`}
                 onClick={() => {
                   dispatchAction(e._id);
-                  stateMethod(!state);
+                  stateMethod({
+                    ...state,
+                    uiState: !state.uiState,
+                  });
                 }}
               >
                 <div className="sidebar-contact__avatar-wrapper">
