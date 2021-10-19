@@ -8,11 +8,19 @@ import Icon from "components/Icon";
 import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
-import { fetchUserFullContactList } from "Redux/Actions/fetchUser";
+import { fetchUserFullContactList, createUser } from "Redux/Actions/fetchUser";
 import "./styles/main.css";
 
 const CreateContacts = (props) => {
   let { state, stateMethod, userData } = props.parentState;
+
+  let dispatch = useDispatch();
+
+  let [userContact, setUserContact] = useState({
+    contact: "",
+    name: "",
+  });
+
   return (
     <>
       <aside className="sidebar  header_sidebar_container">
@@ -46,7 +54,17 @@ const CreateContacts = (props) => {
             <form>
               <label>
                 Contact Name
-                <input type="text" name="username" placeholder="contact name" />
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="contact name"
+                  onChange={(e) => {
+                    setUserContact({
+                      ...userContact,
+                      name: e.target.value,
+                    });
+                  }}
+                />
               </label>
               <label>
                 Contact Number
@@ -54,11 +72,19 @@ const CreateContacts = (props) => {
                   type="number"
                   name="user number"
                   placeholder="phone number"
+                  onChange={(e) => {
+                    setUserContact({
+                      ...userContact,
+                      contact: e.target.value,
+                    });
+                  }}
                 />
               </label>
               <button
                 onClick={(e) => {
                   e.preventDefault();
+                  console.log(userContact);
+                  dispatch(createUser(userData._id, userContact));
                 }}
               >
                 Create contact

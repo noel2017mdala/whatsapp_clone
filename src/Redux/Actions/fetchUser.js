@@ -31,3 +31,19 @@ export const fetchUserFullContactList = (id) => {
       });
   };
 };
+
+export const createUser = (id, body) => {
+  return async (dispatch) => {
+    const url = `http://localhost:8000/api/v1/users/addContact/${id}`;
+    axios
+      .put(url, {
+        body,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
