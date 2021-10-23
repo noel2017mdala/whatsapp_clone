@@ -35,6 +35,7 @@ const ListChart = (props) => {
     margin: 2em auto;
     border-color: #00bfa5;
   `;
+
   return (
     <>
       <aside className="sidebar  header_sidebar_container">
@@ -70,8 +71,10 @@ const ListChart = (props) => {
             <ClipLoader color="#00bfa5" css={override} size={30} />
           ) : !select.data ? (
             <ClipLoader color="#00bfa5" css={override} size={30} />
-          ) : select.data.length < 1 ? (
-            "No Contact Found"
+          ) : select.data.length === undefined ? (
+            <p className="contactsNotFound">No Contact Found</p>
+          ) : select.data < 1 ? (
+            <p className="contactsNotFound">No Contact Found</p>
           ) : (
             select.data.map((e, index) => (
               <Link

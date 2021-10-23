@@ -167,6 +167,11 @@
   top: 10em;
   color: #323739;
 }
+
+.sidebar__contacts .contactsNotFound {
+  text-align: center;
+  padding-top: 2em;
+}
 .sidebar-contact {
   height: 72px;
   padding: 10px 20px;
