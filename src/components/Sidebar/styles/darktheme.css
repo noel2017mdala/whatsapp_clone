@@ -78,3 +78,12 @@
   background-color: rgb(0, 175, 156);
   color: rgb(19, 28, 33);
 }
+
+.dark-theme .form_controller label {
+  color: white;
+}
+
+.dark-theme .form_controller input {
+  /* border-color: white; */
+  color: white;
+}
