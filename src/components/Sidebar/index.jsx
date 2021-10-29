@@ -13,6 +13,7 @@ import Cookie from "universal-cookie";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
 import OptionsBtn from "components/OptionsButton";
 import ListChart from "./ListChat";
+import CreateGroup from "./CreateGroup";
 import CreateContact from "./CreateContact";
 import { useUsersContext } from "context/usersContext";
 
@@ -27,6 +28,7 @@ const Sidebar = () => {
   const [createUser, setCreateUserState] = useState({
     uiState: false,
     newUserState: false,
+    groupUi: false,
   });
 
   useEffect(() => {
@@ -69,6 +71,14 @@ const Sidebar = () => {
         userData: userData,
       }}
     />
+  ) : createUser.groupUi ? (
+    <CreateGroup
+      parentState={{
+        state: createUser,
+        stateMethod: setCreateUserState,
+        userData: userData,
+      }}
+    />
   ) : (
     <>
       <aside className="sidebar">
@@ -91,7 +101,6 @@ const Sidebar = () => {
               className="sidebar__action"
               aria-label="New chat"
               onClick={() => {
-                console.log(createUser);
                 setCreateUserState({
                   ...createUser,
                   uiState: true,

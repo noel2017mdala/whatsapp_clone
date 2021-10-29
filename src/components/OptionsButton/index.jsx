@@ -44,6 +44,14 @@ const OptionsBtn = ({
                   ...parentState.state,
                   uiState: false,
                   newUserState: true,
+                  groupUi: false,
+                });
+              } else if (e.target.textContent === "New group") {
+                parentState.stateMethod({
+                  ...parentState.state,
+                  uiState: false,
+                  newUserState: false,
+                  groupUi: true,
                 });
               }
             }}

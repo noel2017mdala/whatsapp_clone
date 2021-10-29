@@ -87,3 +87,7 @@
   /* border-color: white; */
   color: white;
 }
+
+.dark-theme .groupDescription {
+  color: white;
+}
