@@ -50,6 +50,10 @@
   transform: rotate(180deg);
 }
 
+.group_button_create {
+  position: relative;
+  top: 5.5em;
+}
 .imageContainer {
   background-color: #00af9c;
   width: 35%;
@@ -98,7 +102,7 @@ input[type="file"] {
   margin: 0 auto;
   color: black;
   font-size: 18px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 /*start header_sidebar_container*/
 /* .header_sidebar_container {

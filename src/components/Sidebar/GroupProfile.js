@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import axios, { Axios } from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { fileUpload } from "../../Redux/Actions/fileUpload";
 import Icon from "components/Icon";
 import "./styles/main.css";
 
@@ -10,6 +12,28 @@ const GroupProfile = (props) => {
     description: "",
     uploadPhoto: "",
   });
+
+  let [description, setDescription] = useState();
+  let [file, setFile] = useState();
+
+  const uploadFile = (e) => {
+    e.preventDefault();
+
+    const fData = new FormData();
+    fData.append("description", description);
+    fData.append("file", file);
+    // console.log(fData);
+    axios
+      .post("http://localhost:8000/api/v1/group/createGroup", fData)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        // console.log(err.response.data.error);
+        console.log(err);
+      });
+    // fileUpload(fData);
+  };
 
   return (
     <>
@@ -30,42 +54,41 @@ const GroupProfile = (props) => {
           </div>
         </header>
         <div className="sidebar__contacts">
-          <div className="imageContainer">
-            <div className="file-upload">
-              <p>Click Here to select your image</p>
-              <input
-                type="file"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
+          <form action="#">
+            <div className="imageContainer">
+              <div className="file-upload">
+                <p>Click Here to select your image</p>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setFile(file);
+                  }}
+                  id="file"
+                />
+              </div>
             </div>
-          </div>
 
-          <input
-            className="groupDescription"
-            type="text"
-            placeholder="group Description"
-            onChange={(e) => {
-              setUserInput({
-                ...userInput,
-                description: e.target.value,
-              });
-            }}
-          />
+            <input
+              className="groupDescription"
+              type="text"
+              placeholder="group Description"
+              onChange={(e) => {
+                const { value } = e.target;
+                setDescription(value);
+              }}
+              id="name"
+            />
+            {!description ? null : description.length > 0 ? (
+              <button
+                className="group_button group_button_create"
+                onClick={uploadFile}
+              >
+                <Icon className="" id="singleTick" />
+              </button>
+            ) : null}
+          </form>
         </div>
-        {userInput.description.length > 0 ? (
-          <div
-            className="group_button"
-            onClick={(e) => {
-              e.preventDefault();
-              let userData = { ...userInput, groupUsers: users };
-              console.log(userData);
-            }}
-          >
-            <Icon className="" id="singleTick" />
-          </div>
-        ) : null}
       </aside>
     </>
   );
