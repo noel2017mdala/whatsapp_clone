@@ -1,32 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios, { Axios } from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { fileUpload } from "../../Redux/Actions/fileUpload";
+import uuid from "react-uuid";
+import { css } from "@emotion/react";
+import { getUserDAta } from "utils/userData";
+import ClipLoader from "react-spinners/ClipLoader";
 import Icon from "components/Icon";
 import "./styles/main.css";
 
 const GroupProfile = (props) => {
   let { state, stateMethod } = props.uiState;
   let { users } = props.selectedUsers;
-  let [userInput, setUserInput] = useState({
-    description: "",
-    uploadPhoto: "",
-  });
-
   let [description, setDescription] = useState();
   let [file, setFile] = useState();
+  let [disAbleButton, setDisableButton] = useState(false);
 
   const uploadFile = (e) => {
     e.preventDefault();
+    setDisableButton(true);
 
     const fData = new FormData();
     fData.append("description", description);
+    fData.append("Uid", uuid());
+    fData.append("users", users);
+    fData.append("created_by", getUserDAta()._id);
     fData.append("file", file);
     // console.log(fData);
     axios
       .post("http://localhost:8000/api/v1/group/createGroup", fData)
       .then((res) => {
-        console.log(res.data);
+        if (res.data) {
+          console.log("done");
+          setDisableButton(false);
+          stateMethod({
+            ...state,
+            groupProfile: !state.groupProfile,
+          });
+        }
       })
       .catch((err) => {
         // console.log(err.response.data.error);
@@ -34,6 +43,12 @@ const GroupProfile = (props) => {
       });
     // fileUpload(fData);
   };
+
+  const override = css`
+    display: block;
+    margin: 2em auto;
+    border-color: #ffffff;
+  `;
 
   return (
     <>
@@ -72,7 +87,7 @@ const GroupProfile = (props) => {
             <input
               className="groupDescription"
               type="text"
-              placeholder="group Description"
+              placeholder="Group Name"
               onChange={(e) => {
                 const { value } = e.target;
                 setDescription(value);
@@ -83,8 +98,13 @@ const GroupProfile = (props) => {
               <button
                 className="group_button group_button_create"
                 onClick={uploadFile}
+                disabled={disAbleButton}
               >
-                <Icon className="" id="singleTick" />
+                {disAbleButton ? (
+                  <ClipLoader color="#00bfa5" css={override} size={20} />
+                ) : (
+                  <Icon className="" id="singleTick" />
+                )}
               </button>
             ) : null}
           </form>
