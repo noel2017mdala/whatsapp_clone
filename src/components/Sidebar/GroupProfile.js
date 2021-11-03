@@ -10,6 +10,7 @@ import "./styles/main.css";
 const GroupProfile = (props) => {
   let { state, stateMethod } = props.uiState;
   let { users } = props.selectedUsers;
+  let { mainState, mainStateMethod } = props.mainState;
   let [description, setDescription] = useState();
   let [file, setFile] = useState();
   let [disAbleButton, setDisableButton] = useState(false);
@@ -31,9 +32,9 @@ const GroupProfile = (props) => {
         if (res.data) {
           console.log("done");
           setDisableButton(false);
-          stateMethod({
-            ...state,
-            groupProfile: !state.groupProfile,
+          mainStateMethod({
+            ...mainState,
+            groupUi: !mainState.groupUi,
           });
         }
       })

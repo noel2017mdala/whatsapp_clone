@@ -157,6 +157,10 @@ const CreateGroup = (props) => {
       selectedUsers={{
         users: checkedUsers,
       }}
+      mainState={{
+        mainState: state,
+        mainStateMethod: stateMethod,
+      }}
     />
   );
 };

@@ -235,6 +235,27 @@ input[type="file"] {
   border-top: 1px solid #dadada;
 }
 
+.sidebar__contacts .chartTabs {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  display: flex;
+  margin: 0.5em 0 1em 0;
+  width: 100%;
+}
+
+.chartTabs button {
+  padding: 1em;
+  transition: 0.3s;
+  font-size: 1em;
+  flex-grow: 1;
+  transition: 0.3s;
+}
+
+.active {
+  background-color: #00bfa5;
+  color: #ffff;
+}
+
 .sidebar__contacts .no_chat_notification {
   margin: 0 auto;
   font-size: 0.9em;

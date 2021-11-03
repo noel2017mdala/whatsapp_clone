@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { css } from "@emotion/react";
+import { Tab, Tabs, AppBar } from "@material-ui/core";
 import ClipLoader from "react-spinners/ClipLoader";
 import "./styles/main.css";
 import avatar from "assets/images/profile-picture-girl-1.jpeg";
@@ -31,6 +32,8 @@ const Sidebar = () => {
     groupUi: false,
   });
 
+  const [tabStatus, setTabStatus] = useState(true);
+
   useEffect(() => {
     dispatch(fetchContactList(userData));
     // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
@@ -45,7 +48,7 @@ const Sidebar = () => {
   });
 
   // console.log(userData.unreadMessages);
-
+  // console.log(select.fetchContactList);
   const override = css`
     display: block;
     margin: 2em auto;
@@ -142,6 +145,24 @@ const Sidebar = () => {
         </div>
 
         <div className="sidebar__contacts">
+          <div className="chartTabs">
+            <button
+              className={tabStatus ? "active" : ""}
+              onClick={() => {
+                setTabStatus(true);
+              }}
+            >
+              Chat
+            </button>
+            <button
+              className={!tabStatus ? "active" : ""}
+              onClick={() => {
+                setTabStatus(false);
+              }}
+            >
+              Groups
+            </button>
+          </div>
           {!select.fetchContactList ? (
             <ClipLoader color="#00bfa5" css={override} size={30} />
           ) : !select.fetchContactList.data ? (
@@ -151,13 +172,35 @@ const Sidebar = () => {
           ) : select.fetchContactList.data.length < 1 ? (
             <div className="no_chat_notification">No Chats</div>
           ) : (
-            select.fetchContactList.data.map((contact, index) => (
-              <GetContact
-                key={index}
-                userData={contact}
-                notificationStatus={userData.unreadMessages}
-              />
-            ))
+            select.fetchContactList.data.map(
+              (contact, index) =>
+                contact.userDetails && contact.userGroups ? (
+                  <GetContact
+                    key={index}
+                    userData={contact}
+                    notificationStatus={userData.unreadMessages}
+                  />
+                ) : contact.userDetails && !contact.userGroups ? (
+                  <GetContact
+                    key={index}
+                    userData={contact}
+                    notificationStatus={userData.unreadMessages}
+                  />
+                ) : !contact.userDetails && contact.userGroups ? (
+                  <GetContact
+                    key={index}
+                    userData={contact}
+                    notificationStatus={userData.unreadMessages}
+                  />
+                ) : !contact.userDetails && !contact.userGroups ? (
+                  console.log(contact)
+                ) : null
+              // <GetContact
+              //   key={index}
+              //   userData={contact}
+              //   notificationStatus={userData.unreadMessages}
+              // />
+            )
           )}
         </div>
       </aside>

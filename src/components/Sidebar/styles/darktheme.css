@@ -91,3 +91,7 @@
 .dark-theme .groupDescription {
   color: white;
 }
+
+.sidebar__contacts .chartTabs {
+  background: #323739;
+}

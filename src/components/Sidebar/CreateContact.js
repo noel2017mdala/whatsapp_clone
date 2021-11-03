@@ -36,7 +36,7 @@ const CreateContacts = (props) => {
                 });
               }}
             />
-            <p>Create Contact</p>
+            <p>Add Contact</p>
           </div>
         </header>
         <div className="search-wrapper">
@@ -87,7 +87,7 @@ const CreateContacts = (props) => {
                   dispatch(createUser(userData._id, userContact));
                 }}
               >
-                Create contact
+                Add contact
               </button>
             </form>
           </div>
