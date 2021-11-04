@@ -19,8 +19,8 @@ const GetContact = ({ userData, notificationStatus }) => {
 
   return (
     <>
-      {!userData ? (
-        ""
+      {!userData.userDetails ? (
+        <div className="no_chat_notification">No Chats</div>
       ) : (
         <Link
           className="sidebar-contact"

@@ -259,10 +259,11 @@ input[type="file"] {
 .sidebar__contacts .no_chat_notification {
   margin: 0 auto;
   font-size: 0.9em;
-  width: 20%;
+  width: 40%;
   position: relative;
   top: 10em;
   color: #323739;
+  text-align: center;
 }
 
 .sidebar__contacts .contactsNotFound {

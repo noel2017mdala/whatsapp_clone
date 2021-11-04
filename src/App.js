@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Sidebar from "components/Sidebar";
 import Login from "./Authentication/";
 import Chat from "./pages/Chat";
+import Group from "pages/Chat/Group";
 import socket from "./socket/index";
 
 // socket.on("receive-message", (message) => {
@@ -40,6 +41,7 @@ function App() {
           <Sidebar />
           <Switch>
             <Route path="/chat/:id" component={Chat} />
+            <Route path="/group/:id" component={Group} />
             <Route component={Home} />
           </Switch>
         </div>
