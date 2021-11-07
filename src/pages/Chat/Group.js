@@ -7,14 +7,27 @@ import Search from "./components/Search";
 import Icon from "components/Icon";
 import { useParams } from "react-router-dom";
 import GroupHeader from "./components/GroupHader";
+import { getGroupData } from "Redux/Actions/groupAction";
 
 const Group = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
   const lastMsgRef = useRef(null);
   const [showAttach, setShowAttach] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [showProfileSidebar, setShowProfileSidebar] = useState(false);
   const [showSearchSidebar, setShowSearchSidebar] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+
+  useEffect(() => {
+    dispatch(getGroupData(id));
+  }, []);
+
+  const select = useSelector((e) => {
+    return e;
+  });
+
+  // console.log(select.groupData);
 
   const scrollToLast = () => {
     // messageEndRef.current?.scrollIntoView();
@@ -43,7 +56,7 @@ const Group = () => {
       <div className="chat">
         <div className="chat__body">
           <div className="chat__bg"></div>
-          <GroupHeader />
+          <GroupHeader userDetails={select.groupData} />
           <div className="chat__content">
             {/* <Convo
               messages={
