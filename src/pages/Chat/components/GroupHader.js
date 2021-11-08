@@ -21,7 +21,13 @@ const GroupHeader = (props) => {
 
           <div className="chat__contact-wrapper">
             <h2 className="chat__contact-name">{userDetails.data.groupName}</h2>
-            <p className="chat__contact-desc">group users</p>
+            <p className="chat__contact-desc">
+              {userDetails.data.groupUsers.map((user, index) => {
+                return `${user.name} ${
+                  userDetails.data.groupUsers.length >= index ? "," : ""
+                } `;
+              })}
+            </p>
           </div>
 
           <div className="chat__actions">
