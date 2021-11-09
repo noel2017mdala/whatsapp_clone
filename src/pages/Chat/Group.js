@@ -5,9 +5,11 @@ import ChatInput from "./components/ChatInput";
 import ChatSidebar from "./components/ChatSidebar";
 import Search from "./components/Search";
 import Icon from "components/Icon";
+import Convo from "./components/Convo";
+import GroupDetails from "./components/GroupProfile";
 import { useParams } from "react-router-dom";
-import GroupHeader from "./components/GroupHader";
-import { getGroupData } from "Redux/Actions/groupAction";
+import GroupHeader from "./components/GroupHeader";
+import { getGroupData, getGroupMessages } from "Redux/Actions/groupAction";
 
 const Group = () => {
   const { id } = useParams();
@@ -18,20 +20,27 @@ const Group = () => {
   const [showProfileSidebar, setShowProfileSidebar] = useState(false);
   const [showSearchSidebar, setShowSearchSidebar] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     dispatch(getGroupData(id));
+    dispatch(getGroupMessages(id));
   }, []);
 
   const select = useSelector((e) => {
     return e;
   });
 
-  // console.log(select.groupData);
-
   const scrollToLast = () => {
-    // messageEndRef.current?.scrollIntoView();
+    messageEndRef.current?.scrollIntoView();
     console.log("header bottom");
+  };
+
+  const openSidebar = (cb) => {
+    // close any open sidebar first
+    setShowProfileSidebar(false);
+    setShowSearchSidebar(false);
+    cb(true);
   };
 
   const submitNewMessage = () => {
@@ -48,7 +57,7 @@ const Group = () => {
 
     // setNewMessage("");
 
-    console.log("about to submit group message");
+    console.log(newMessage);
   };
 
   return (
@@ -56,23 +65,39 @@ const Group = () => {
       <div className="chat">
         <div className="chat__body">
           <div className="chat__bg"></div>
-          <GroupHeader userDetails={select.groupData} />
+          <GroupHeader
+            userDetails={select.groupData}
+            openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
+            openSearchSidebar={() => openSidebar(setShowSearchSidebar)}
+          />
           <div className="chat__content">
             {/* <Convo
               messages={
                 !select
                   ? null
-                  : !select.MessageReducer
+                  : !select.groupMessages
                   ? null
-                  : !select.MessageReducer.data
+                  : !select.groupMessagesr.data
                   ? null
-                  : !select.MessageReducer.data.user
+                  : !select.groupMessages.data.user
                   ? null
-                  : select.MessageReducer.data.message
+                  : select.groupMessages.data
               }
               scrollFunction={scrollToLast}
               messageEndRef={messageEndRef}
             /> */}
+
+            <Convo
+              messages={
+                !select
+                  ? null
+                  : !select.groupMessages
+                  ? null
+                  : select.groupMessages.data
+              }
+              scrollFunction={scrollToLast}
+              messageEndRef={messageEndRef}
+            />
           </div>
 
           <footer className="chat__footer">
@@ -125,15 +150,13 @@ const Group = () => {
           history={history}
         /> */}
 
-          {/* {!select ? null : !select.MessageReducer ? null : !select
-              .MessageReducer.data ? null : !select.MessageReducer.data
-              .user ? null : (
-            <Profile
-              user={select.MessageReducer.data.user}
+          {!select ? null : !select.groupData ? null : (
+            <GroupDetails
+              group={select.groupData}
               openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
               openSearchSidebar={() => openSidebar(setShowSearchSidebar)}
             />
-          )} */}
+          )}
         </ChatSidebar>
       </div>
     </>

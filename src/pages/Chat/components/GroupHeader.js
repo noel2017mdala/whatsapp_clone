@@ -3,15 +3,15 @@ import Icon from "components/Icon";
 import OptionsBtn from "components/OptionsButton";
 
 const GroupHeader = (props) => {
-  const { userDetails } = props;
-  console.log(userDetails.data);
+  const { userDetails, openProfileSidebar, openSearchSidebar } = props;
+
   return (
     <header className="header chat__header">
       {!userDetails.data ? (
         ""
       ) : (
         <>
-          <div className="chat__avatar-wrapper">
+          <div className="chat__avatar-wrapper" onClick={openProfileSidebar}>
             <img
               src={userDetails.data.groupProfile}
               alt={userDetails.data.groupName}
@@ -19,12 +19,12 @@ const GroupHeader = (props) => {
             />
           </div>
 
-          <div className="chat__contact-wrapper">
+          <div className="chat__contact-wrapper" onClick={openProfileSidebar}>
             <h2 className="chat__contact-name">{userDetails.data.groupName}</h2>
             <p className="chat__contact-desc">
               {userDetails.data.groupUsers.map((user, index) => {
                 return `${user.name} ${
-                  userDetails.data.groupUsers.length >= index ? "," : ""
+                  userDetails.data.groupUsers.length - 2 >= index ? "," : ""
                 } `;
               })}
             </p>
@@ -34,7 +34,7 @@ const GroupHeader = (props) => {
             <button
               className="chat__action"
               aria-label="Search"
-              //   onClick={openSearchSidebar}
+              onClick={openSearchSidebar}
             >
               <Icon
                 id="search"

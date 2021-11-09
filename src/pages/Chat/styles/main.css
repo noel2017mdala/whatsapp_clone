@@ -648,6 +648,16 @@
   margin-right: 10px;
 }
 
+.groupAdmin {
+  border: 1px solid #16c69f;
+  border-radius: 0.2em;
+}
+
+.adminText {
+  padding: 0.2em;
+  font-size: 12px;
+  color: #16c69f;
+}
 .profile__group-text {
   flex: 1;
   overflow: hidden;
