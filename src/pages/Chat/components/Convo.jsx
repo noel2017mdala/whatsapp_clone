@@ -87,7 +87,7 @@ const Convo = ({ lastMsgRef, messages, messageEndRef, scrollFunction }) => {
               <>
                 {messagesData.attachedImage ? (
                   "Image Was Attached"
-                ) : messagesData.from !== userData._id ? (
+                ) : messagesData.from._id !== userData._id ? (
                   <p
                     className="chat__msg chat__msg--rxd"
                     ref={assignRef(index, messages)}

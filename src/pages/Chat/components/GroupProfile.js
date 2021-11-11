@@ -1,11 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import groupAvatar from "assets/images/women.png";
 import media from "assets/images/placeholder.jpeg";
 import Checkbox from "components/Checkbox";
 import Icon from "components/Icon";
+import { getUserDAta } from "utils/userData";
 
 const GroupDetails = (props) => {
   const { group, openProfileSidebar, openSearchSidebar } = props;
+
   return (
     <div className="profile">
       {group.data ? (
@@ -85,7 +88,7 @@ const GroupDetails = (props) => {
                 </span> */}
               </p>
               <button className="profile__action-right">
-                <Icon id="rightArrow" className="profile__heading-icon" />{" "}
+                <Icon id="rightArrow" className="profile__heading-icon" />
               </button>
             </li>
           </ul>
@@ -96,23 +99,56 @@ const GroupDetails = (props) => {
                 <span> {group.data.groupUsers.length} Participants</span>
               </h2>
               {group.data.groupUsers.map((e) => (
-                <div className="profile__group" key={e.id}>
-                  <div className="profile__group-avatar-wrapper">
-                    <img src={e.profileImage} alt={e.name} className="avatar" />
-                  </div>
-                  <div className="profile__group-content">
-                    <p className="profile__group-text profile__group-text--top">
-                      {e.name}
-                    </p>
-                    <p className="profile__group-text profile__group-text--bottom">
-                      {e.name}
-                    </p>
-                  </div>
-                  <div className="groupAdmin">
-                    {group.data.groupAdmin.includes(e.id) ? (
-                      <p className="adminText">Group Admin</p>
-                    ) : null}
-                  </div>
+                <div key={e.id}>
+                  {e.id !== getUserDAta()._id ? (
+                    <Link to={`/chat/${e.id}`}>
+                      <div className="profile__group">
+                        <div className="profile__group-avatar-wrapper">
+                          <img
+                            src={e.profileImage}
+                            alt={e.name}
+                            className="avatar"
+                          />
+                        </div>
+                        <div className="profile__group-content">
+                          <p className="profile__group-text profile__group-text--top">
+                            {e.id === getUserDAta()._id ? "You" : e.name}
+                          </p>
+                          <p className="profile__group-text profile__group-text--bottom">
+                            {e.name}
+                          </p>
+                        </div>
+                        <div className="groupAdmin">
+                          {group.data.groupAdmin.includes(e.id) ? (
+                            <p className="adminText">Group Admin</p>
+                          ) : null}
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className="profile__group" key={e.id}>
+                      <div className="profile__group-avatar-wrapper">
+                        <img
+                          src={e.profileImage}
+                          alt={e.name}
+                          className="avatar"
+                        />
+                      </div>
+                      <div className="profile__group-content">
+                        <p className="profile__group-text profile__group-text--top">
+                          {e.id === getUserDAta()._id ? "You" : e.name}
+                        </p>
+                        <p className="profile__group-text profile__group-text--bottom">
+                          {e.name}
+                        </p>
+                      </div>
+                      <div className="groupAdmin">
+                        {group.data.groupAdmin.includes(e.id) ? (
+                          <p className="adminText">Group Admin</p>
+                        ) : null}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

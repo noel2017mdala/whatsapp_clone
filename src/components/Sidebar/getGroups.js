@@ -6,16 +6,33 @@ import formatTime from "utils/formatTime";
 import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
+import {
+  getGroupData,
+  getGroupMessages,
+} from "../../Redux/Actions/groupAction";
 
 const GetGroups = (userData) => {
+  const dispatch = useDispatch();
   //   console.log(userData.userData.userGroups);
+
+  const dispatchActions = (id) => {
+    dispatch(getGroupData(id));
+    dispatch(getGroupMessages(id));
+  };
   return (
     <>
       {userData.userData.userGroups.length < 1 ? (
         <div className="no_chat_notification">No Groups Found</div>
       ) : (
         userData.userData.userGroups.map((e, index) => (
-          <Link className="sidebar-contact" to={`/group/${e._id}`} key={index}>
+          <Link
+            className="sidebar-contact"
+            to={`/group/${e._id}`}
+            key={index}
+            onClick={() => {
+              dispatchActions(e._id);
+            }}
+          >
             <div className="sidebar-contact__avatar-wrapper">
               <img
                 src={e.groupProfile}

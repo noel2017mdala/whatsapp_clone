@@ -4,11 +4,13 @@ import EmojiTray from "./components/EmojiTray";
 import ChatInput from "./components/ChatInput";
 import ChatSidebar from "./components/ChatSidebar";
 import Search from "./components/Search";
+import socket from "../../socket";
 import Icon from "components/Icon";
 import Convo from "./components/Convo";
 import GroupDetails from "./components/GroupProfile";
 import { useParams } from "react-router-dom";
 import GroupHeader from "./components/GroupHeader";
+import { getUserDAta } from "../../utils/userData";
 import { getGroupData, getGroupMessages } from "Redux/Actions/groupAction";
 
 const Group = () => {
@@ -33,7 +35,6 @@ const Group = () => {
 
   const scrollToLast = () => {
     messageEndRef.current?.scrollIntoView();
-    console.log("header bottom");
   };
 
   const openSidebar = (cb) => {
@@ -44,20 +45,19 @@ const Group = () => {
   };
 
   const submitNewMessage = () => {
-    // let messageContent = {
-    //   from: userData._id,
-    //   to: id,
-    //   messagesBody: newMessage,
-    // };
+    let senderId = getUserDAta()._id;
 
-    // socket.emit("message-sent", messageContent, {
-    //   userData,
-    //   userId,
-    // });
+    let messageContent = {
+      from: senderId,
+      to: id,
+      messagesBody: newMessage,
+      groupId: id,
+    };
 
-    // setNewMessage("");
+    //send a group Message
 
-    console.log(newMessage);
+    socket.emit("group-message", messageContent);
+    setNewMessage("");
   };
 
   return (
