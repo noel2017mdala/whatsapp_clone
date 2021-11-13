@@ -29,7 +29,16 @@ const Form = () => {
           </Tabs>
         </AppBar>
 
-        {SelectedTab === 0 ? <Login /> : <CreateAccount />}
+        {SelectedTab === 0 ? (
+          <Login />
+        ) : (
+          <CreateAccount
+            state={{
+              state: SelectedTab,
+              method: setSelectedTab,
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -7,6 +7,8 @@ import GetContact from "./getContacts";
 import Icon from "components/Icon";
 import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
 import { fetchUserFullContactList, createUser } from "Redux/Actions/fetchUser";
 import "./styles/main.css";
@@ -15,11 +17,61 @@ const CreateContacts = (props) => {
   let { state, stateMethod, userData } = props.parentState;
 
   let dispatch = useDispatch();
+  const regEx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
   let [userContact, setUserContact] = useState({
     contact: "",
     name: "",
   });
+
+  let [disAbleButton, setDisableButton] = useState(false);
+
+  const notifySuccess = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const createContact = async (id, userContact) => {
+    setDisableButton(true);
+    if (!regEx.test(userContact.contact)) {
+      notifyError("Please enter a valid phone number");
+    } else {
+      const createUserData = await createUser(id, userContact);
+
+      if (createUserData) {
+        notifySuccess(createUserData.message);
+        setDisableButton(false);
+      } else {
+        notifyError(createUserData.message);
+        setDisableButton(false);
+      }
+    }
+  };
+
+  const override = css`
+    // display: block;
+    // margin: 2em auto;
+    border-color: #ffffff;
+  `;
 
   return (
     <>
@@ -80,17 +132,24 @@ const CreateContacts = (props) => {
                   }}
                 />
               </label>
+
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log(userContact);
-                  dispatch(createUser(userData._id, userContact));
+                  // console.log(userContact);
+                  createContact(userData._id, userContact);
                 }}
+                disabled={disAbleButton}
               >
-                Add contact
+                {disAbleButton ? (
+                  <ClipLoader color="#00bfa5" css={override} size={20} />
+                ) : (
+                  "Add contact"
+                )}
               </button>
             </form>
           </div>
+          <ToastContainer />
         </div>
       </aside>
     </>

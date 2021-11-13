@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Icon from "components/Icon";
 import OptionsBtn from "components/OptionsButton";
 import socket from "../../../socket";
+import formatTime from "utils/formatTime";
 
 import Cookie from "universal-cookie";
 
@@ -34,7 +35,9 @@ const Header = ({ user, openProfileSidebar, openSearchSidebar }) => {
         <h2 className="chat__contact-name"> {user?.name}</h2>
         <p className="chat__contact-desc">
           {user.userActivity.map((e) => {
-            return e.socketId ? "online" : `last seen ${e.lastSeenTime}`;
+            return e.socketId
+              ? "online"
+              : `last seen ${formatTime(e.lastSeenTime)}`;
           })}
         </p>
       </div>

@@ -32,18 +32,36 @@ export const fetchUserFullContactList = (id) => {
   };
 };
 
-export const createUser = (id, body) => {
-  return async (dispatch) => {
-    const url = `http://localhost:8000/api/v1/users/addContact/${id}`;
-    axios
-      .put(url, {
-        body,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+export const createUser = async (id, body) => {
+  const url = `http://localhost:8000/api/v1/users/addContact/${id}`;
+  let test = axios
+    .put(url, {
+      body,
+    })
+    .then((res) => {
+      // console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      if (err.response) {
+        return {
+          status: true,
+          message: "Failed to add contact please try again later",
+        };
+      } else if (err.request) {
+        return {
+          status: true,
+          message:
+            "Failed to add contact please check your internet connection and try again",
+        };
+      } else {
+        return {
+          status: true,
+          message:
+            "Failed to add contact please check your internet connection and try again",
+        };
+      }
+    });
+
+  return await test;
 };

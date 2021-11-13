@@ -3,6 +3,8 @@ import axios, { Axios } from "axios";
 import uuid from "react-uuid";
 import { css } from "@emotion/react";
 import { getUserDAta } from "utils/userData";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import Icon from "components/Icon";
 import "./styles/main.css";
@@ -15,6 +17,18 @@ const GroupProfile = (props) => {
   let [file, setFile] = useState();
   let [disAbleButton, setDisableButton] = useState(false);
 
+  const notifySuccess = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const uploadFile = (e) => {
     e.preventDefault();
     setDisableButton(true);
@@ -26,23 +40,33 @@ const GroupProfile = (props) => {
     fData.append("created_by", getUserDAta()._id);
     fData.append("file", file);
     // console.log(fData);
-    axios
-      .post("http://localhost:8000/api/v1/group/createGroup", fData)
-      .then((res) => {
-        if (res.data) {
-          console.log("done");
-          setDisableButton(false);
-          mainStateMethod({
-            ...mainState,
-            groupUi: !mainState.groupUi,
-          });
-        }
-      })
-      .catch((err) => {
-        // console.log(err.response.data.error);
-        console.log(err);
-      });
-    // fileUpload(fData);
+
+    if (file === undefined) {
+      notifySuccess("Please select an image");
+      setDisableButton(false);
+      return;
+    } else if (description === undefined) {
+      notifySuccess("Please add group name");
+      setDisableButton(false);
+    } else {
+      axios
+        .post("http://localhost:8000/api/v1/group/createGroup", fData)
+        .then((res) => {
+          if (res.data) {
+            notifySuccess("Group created successfully");
+            setDisableButton(false);
+            mainStateMethod({
+              ...mainState,
+              groupUi: !mainState.groupUi,
+            });
+          }
+        })
+        .catch((err) => {
+          // console.log(err.response.data.error);
+          console.log(err);
+        });
+      // fileUpload(fData);
+    }
   };
 
   const override = css`
@@ -81,6 +105,7 @@ const GroupProfile = (props) => {
                     setFile(file);
                   }}
                   id="file"
+                  required="required"
                 />
               </div>
             </div>
@@ -94,12 +119,14 @@ const GroupProfile = (props) => {
                 setDescription(value);
               }}
               id="name"
+              required="required"
             />
             {!description ? null : description.length > 0 ? (
               <button
                 className="group_button group_button_create"
                 onClick={uploadFile}
                 disabled={disAbleButton}
+                type="submit"
               >
                 {disAbleButton ? (
                   <ClipLoader color="#00bfa5" css={override} size={20} />
@@ -109,6 +136,7 @@ const GroupProfile = (props) => {
               </button>
             ) : null}
           </form>
+          <ToastContainer />
         </div>
       </aside>
     </>
