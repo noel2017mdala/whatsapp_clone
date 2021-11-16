@@ -1,31 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { getUserDAta } from "utils/userData";
+import { getCommonGroups } from "Redux/Actions/groupAction";
 import groupAvatar from "assets/images/women.png";
 import media from "assets/images/placeholder.jpeg";
 import Checkbox from "components/Checkbox";
 import Icon from "components/Icon";
 
-const groups = [
-  {
-    name: "Group 1",
-    avatar: groupAvatar,
-    members:
-      "Michelle Obama, Sandra Bullock, Kerry Washington, Beyonce Knowles, Kamala Harris, You",
-  },
-  {
-    name: "Group 2",
-    avatar: groupAvatar,
-    members:
-      "Michelle Obama, Sandra Bullock, Kerry Washington, Beyonce Knowles, Kamala Harris, You",
-  },
-  {
-    name: "Group 3",
-    avatar: groupAvatar,
-    members:
-      "Michelle Obama, Sandra Bullock, Kerry Washington, Beyonce Knowles, Kamala Harris, You",
-  },
-];
-
 const Profile = ({ user, history }) => {
+  const dispatch = useDispatch();
+
+  const select = useSelector((e) => {
+    return e;
+  });
+
+  useEffect(() => {
+    dispatch(
+      getCommonGroups({
+        senderId: user.id,
+        id: getUserDAta()._id,
+      })
+    );
+  }, []);
+
+  console.log(select.commonGroups.data);
   return (
     <div className="profile">
       <div className="profile__section profile__section--personal">
@@ -100,24 +99,52 @@ const Profile = ({ user, history }) => {
       <div className="profile__section profile__section--groups">
         <div className="profile__heading-wrapper">
           <h2 className="sb profile__heading profile__group-heading">
-            <span> Groups in common </span> <span> 3</span>
+            <span> Groups in common </span>
+            <span>
+              {!select
+                ? ""
+                : !select.commonGroups
+                ? ""
+                : !select.commonGroups.data
+                ? ""
+                : select.commonGroups.data.length}
+            </span>
           </h2>
         </div>
-        {groups.map((group) => (
-          <div className="profile__group" key={group.name}>
-            <div className="profile__group-avatar-wrapper">
-              <img src={group.avatar} alt="Group 3" className="avatar" />
-            </div>
-            <div className="profile__group-content">
-              <p className="profile__group-text profile__group-text--top">
-                {group.name}
-              </p>
-              <p className="profile__group-text profile__group-text--bottom">
-                {group.members}
-              </p>
-            </div>
-          </div>
-        ))}
+
+        {!select ? (
+          ""
+        ) : !select.commonGroups ? (
+          ""
+        ) : !select.commonGroups.data ? (
+          ""
+        ) : select.commonGroups.data === undefined ? (
+          <p className="profile__about-item">No groups Found</p>
+        ) : select.commonGroups.data < 1 ? (
+          <p className="common_group">No groups Found</p>
+        ) : (
+          select.commonGroups.data.map((e, index) => (
+            <Link to={`/group/${e._id}`} key={index}>
+              <div className="profile__group" key={index}>
+                <div className="profile__group-avatar-wrapper">
+                  <img src={e.groupProfile} alt="Group 3" className="avatar" />
+                </div>
+                <div className="profile__group-content">
+                  <p className="profile__group-text profile__group-text--top">
+                    {e.groupName}
+                  </p>
+                  <p className="profile__group-text profile__group-text--bottom">
+                    {e.groupUsers.map((user, index) => {
+                      return `${user.name} ${
+                        select.commonGroups.data.length - 2 >= index ? "," : ""
+                      } `;
+                    })}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
 
       <div className="profile__section profile__section--danger">

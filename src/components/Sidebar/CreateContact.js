@@ -54,6 +54,7 @@ const CreateContacts = (props) => {
     setDisableButton(true);
     if (!regEx.test(userContact.contact)) {
       notifyError("Please enter a valid phone number");
+      setDisableButton(false);
     } else {
       const createUserData = await createUser(id, userContact);
 

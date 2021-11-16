@@ -1,6 +1,7 @@
 import axios from "axios";
 export const GET_GROUP_INFO = "GET_GROUP_INFO";
 export const GET_GROUP_MESSAGES = "GET_GROUP_MESSAGES";
+export const GET_COMMON_GROUPS = "GET_COMMON_GROUPS";
 export const getGroupData = (id) => {
   if (id) {
     let url = `http://localhost:8000/api/v1/group/getGroup/${id}`;
@@ -39,6 +40,27 @@ export const getGroupMessages = (id) => {
           if (res.data) {
             console.log(res.data);
             dispatch({ type: GET_GROUP_MESSAGES, payLoad: res.data });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }
+};
+
+export const getCommonGroups = (ids) => {
+  const { id, senderId } = ids;
+  if (ids) {
+    let url = `http://localhost:8000/api/v1/group/commonGroup/${senderId}/${id}`;
+
+    return async (dispatch) => {
+      axios
+        .get(url)
+        .then((res) => {
+          if (res.data) {
+            // console.log(res.data);
+            dispatch({ type: GET_COMMON_GROUPS, payLoad: res.data });
           }
         })
         .catch((err) => {

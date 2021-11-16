@@ -4,6 +4,7 @@ import MessageReducer from "./MessagesReducer";
 import createUser from "./createUser";
 import LoginValidator from "./LoginValidator";
 import groupData from "./groupReducer";
+import commonGroups from "./commonGroupsReducer";
 import groupMessages from "./GroupMessages";
 import fetchFullContactList from "./fetchFullContactList";
 const rootReducer = combineReducers({
@@ -14,5 +15,6 @@ const rootReducer = combineReducers({
   fetchFullContactList,
   groupData,
   groupMessages,
+  commonGroups,
 });
 export default rootReducer;

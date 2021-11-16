@@ -78,7 +78,7 @@ const Login = () => {
             }));
           } else {
             notifyError(
-              "Your username or password is incorrect please try again later"
+              "There was a problem with your login please try again later."
             );
             setUi((prevState) => ({
               ...prevState,

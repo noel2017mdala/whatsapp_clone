@@ -589,6 +589,10 @@
   cursor: pointer;
 }
 
+.common_group {
+  text-align: center;
+}
+
 .profile__action:not(:last-of-type),
 .profile__about-item:not(:last-of-type),
 .profile__group:not(:last-of-type) {
