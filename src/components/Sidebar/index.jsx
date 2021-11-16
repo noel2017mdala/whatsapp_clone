@@ -15,6 +15,7 @@ import Cookie from "universal-cookie";
 import { fetchContactList } from "../../Redux/Actions/fetchUser";
 import OptionsBtn from "components/OptionsButton";
 import ListChart from "./ListChat";
+import UserProfile from "./Profile";
 import CreateGroup from "./CreateGroup";
 import CreateContact from "./CreateContact";
 import { useUsersContext } from "context/usersContext";
@@ -31,6 +32,7 @@ const Sidebar = () => {
     uiState: false,
     newUserState: false,
     groupUi: false,
+    profileUi: false,
   });
 
   const [tabStatus, setTabStatus] = useState(true);
@@ -83,6 +85,14 @@ const Sidebar = () => {
         userData: userData,
       }}
     />
+  ) : createUser.profileUi ? (
+    <UserProfile
+      parentState={{
+        state: createUser,
+        stateMethod: setCreateUserState,
+        userData: userData,
+      }}
+    />
   ) : (
     <>
       <aside className="sidebar">
@@ -92,6 +102,12 @@ const Sidebar = () => {
               src={userData.profileImage}
               alt={userData.name}
               className="avatar"
+              onClick={() => {
+                setCreateUserState({
+                  ...createUser,
+                  profileUi: true,
+                });
+              }}
             />
           </div>
           <div className="sidebar__actions">

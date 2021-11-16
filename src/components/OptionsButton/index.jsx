@@ -53,6 +53,14 @@ const OptionsBtn = ({
                   newUserState: false,
                   groupUi: true,
                 });
+              } else if (e.target.textContent === "Profile") {
+                parentState.stateMethod({
+                  ...parentState.state,
+                  uiState: false,
+                  newUserState: false,
+                  groupUi: false,
+                  profileUi: true,
+                });
               }
             }}
           >

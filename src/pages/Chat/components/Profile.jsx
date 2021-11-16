@@ -24,7 +24,6 @@ const Profile = ({ user, history }) => {
     );
   }, []);
 
-  console.log(select.commonGroups.data);
   return (
     <div className="profile">
       <div className="profile__section profile__section--personal">

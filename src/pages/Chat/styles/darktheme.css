@@ -212,3 +212,13 @@
 .dark-theme .common_group {
   color: white;
 }
+
+.dark-theme .user_info {
+  background-color: rgb(19, 28, 33);
+  color: white;
+}
+
+.dark-theme .user_info_data {
+  color: white;
+  /* background-color: ; */
+}

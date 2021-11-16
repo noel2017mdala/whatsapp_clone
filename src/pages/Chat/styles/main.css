@@ -698,6 +698,33 @@
   flex: 1;
 }
 
+.user_info {
+  background-color: #ffffff;
+  width: 100%;
+  margin-top: 1em;
+  /* padding-top: 2em; */
+  height: 19%;
+}
+
+.user_name {
+  color: #00bfa5;
+  margin-left: 1em;
+  padding-top: 1em;
+}
+
+.user_info_data {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  margin-left: 1em;
+}
+.user_info .user_about {
+  margin-top: 2em;
+  margin-left: 1em;
+}
+
 /* End  Chat Sidebar */
 
 @media screen and (min-width: 1301px) {
