@@ -2,8 +2,10 @@ import Cookie from "universal-cookie";
 import socket from "../socket";
 import { getAllMessages } from "../Redux/Actions/MessagesAction";
 import { fetchContactList } from "../Redux/Actions/fetchUser";
+
 import { getGroupData, getGroupMessages } from "../Redux/Actions/groupAction";
 import { store } from "../index";
+import { emitMessage } from "./Socket";
 let cookie = new Cookie();
 let userData = cookie.get("userData");
 let messageNotification = new Audio(
@@ -33,4 +35,13 @@ socket.on("receive-group-message", (message) => {
 
 socket.on("receive-group-message-notification", (data) => {
   messageReceiveNotification.play();
+});
+
+socket.on("user_receive_sent_message", (data) => {
+  emitMessage("response_emit", data.id);
+});
+
+socket.on("updateList", (body) => {
+  store.dispatch(getAllMessages(body.data, body.id));
+  store.dispatch(fetchContactList(body.data));
 });
