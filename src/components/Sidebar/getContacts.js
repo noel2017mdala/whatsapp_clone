@@ -12,9 +12,13 @@ const GetContact = ({ userData, notificationStatus }) => {
   let userInfo = cookie.get("userData");
   const dispatch = useDispatch();
 
-  const dispatchAction = (id) => {
+  const dispatchAction = (id, info) => {
     dispatch(getAllMessages(userInfo, id));
-    // dispatch(setUserChat(id, userInfo._id));
+    info.map((e, index) => {
+      if (e.sender === userInfo._id && e.count > 0) {
+        dispatch(setUserChat(id, userInfo._id));
+      }
+    });
   };
 
   return (
@@ -26,7 +30,10 @@ const GetContact = ({ userData, notificationStatus }) => {
           className="sidebar-contact"
           to={`/chat/${userData.userDetails._id}`}
           onClick={() => {
-            dispatchAction(userData.userDetails._id);
+            dispatchAction(
+              userData.userDetails._id,
+              userData.userDetails.unreadMessages
+            );
           }}
         >
           <div className="sidebar-contact__avatar-wrapper">

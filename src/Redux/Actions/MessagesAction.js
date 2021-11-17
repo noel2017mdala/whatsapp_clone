@@ -40,8 +40,9 @@ export const setUserChat = (id, senderId) => {
         senderId,
       })
       .then((res) => {
-        if (res.data) {
-          socket.emit("request-demo");
+        if (res.data.updateUserCounter.ok) {
+          //  console.log(res.data.getMessages[0]);
+          socket.emit("request-demo", res.data.getMessages[0]);
         }
       })
       .catch((e) => {

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Icon from "components/Icon";
+import { getUserDAta, userLogout } from "utils/userData";
+import axios from "axios";
 import "./styles/main.css";
 
 const OptionsBtn = ({
@@ -14,6 +16,23 @@ const OptionsBtn = ({
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState(false);
+
+  const logUserOut = () => {
+    let url = `http://localhost:8000/api/v1/users/logout/${getUserDAta()._id}`;
+    axios
+      .get(url, {
+        method: "GET",
+        responseType: "stream",
+      })
+      .then((res) => {
+        if (res.data._id) {
+          let checkLogout = userLogout();
+          if (checkLogout) {
+            window.location.reload();
+          }
+        }
+      });
+  };
 
   return (
     <div className="pos-rel">
@@ -61,6 +80,8 @@ const OptionsBtn = ({
                   groupUi: false,
                   profileUi: true,
                 });
+              } else if (e.target.textContent === "Log out") {
+                logUserOut();
               }
             }}
           >
