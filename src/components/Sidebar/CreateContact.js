@@ -59,8 +59,13 @@ const CreateContacts = (props) => {
       const createUserData = await createUser(id, userContact);
 
       if (createUserData) {
-        notifySuccess(createUserData.message);
-        setDisableButton(false);
+        if (createUserData.status) {
+          notifySuccess(createUserData.message);
+          setDisableButton(false);
+        } else {
+          notifyError(createUserData.message);
+          setDisableButton(false);
+        }
       } else {
         notifyError(createUserData.message);
         setDisableButton(false);
@@ -141,6 +146,13 @@ const CreateContacts = (props) => {
                   createContact(userData._id, userContact);
                 }}
                 disabled={disAbleButton}
+                style={
+                  !disAbleButton
+                    ? {}
+                    : {
+                        cursor: "not-allowed",
+                      }
+                }
               >
                 {disAbleButton ? (
                   <ClipLoader color="#00bfa5" css={override} size={20} />

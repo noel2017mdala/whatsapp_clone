@@ -97,14 +97,13 @@ export const logIn = (userData, cb) => {
           if (res.ok) {
             cb(true);
             dispatch({ type: "LOGIN" });
-            console.log("user logged in successfully");
           } else {
             cb(false);
             dispatch({ type: "FAILED_LOGIN" });
           }
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
         });
     } catch (err) {
       console.log(err);
