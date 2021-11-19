@@ -108,7 +108,17 @@ export const logIn = (userData, cb) => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
+          if (data) {
+            let addCookies = createCookies(data);
+            if (addCookies) {
+              cb(true);
+              dispatch({ type: "LOGIN" });
+            } else {
+              cb(false);
+              dispatch({ type: "FAILED_LOGIN" });
+            }
+          }
         })
         .catch((e) => {
           // console.log(e);
