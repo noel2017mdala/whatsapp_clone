@@ -111,6 +111,7 @@ export const logIn = (userData, cb) => {
           // console.log(data);
           if (data) {
             let addCookies = createCookies(data);
+            console.log(addCookies);
             if (addCookies) {
               cb(true);
               dispatch({ type: "LOGIN" });

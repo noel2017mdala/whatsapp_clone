@@ -4,24 +4,20 @@ const createCookies = (data) => {
   if (data) {
     cookies("userPayLoad", data.headers, {
       sameSite: "strict",
-      secure: true,
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
     cookies("userData", data.userDetails, {
       sameSite: "strict",
-      secure: true,
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookies("signature", signature, {
-      sameSite: "none",
-      secure: true,
+    cookies("signature", data.signature, {
+      sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
-      httpOnly: true,
     });
 
     if (
