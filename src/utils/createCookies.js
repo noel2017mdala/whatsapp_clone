@@ -9,14 +9,14 @@ const createCookies = (data) => {
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookie("userData", data.userDetails, {
+    cookies("userData", data.userDetails, {
       sameSite: "strict",
       secure: true,
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookie("signature", signature, {
+    cookies("signature", signature, {
       sameSite: "none",
       secure: true,
       path: "/",
