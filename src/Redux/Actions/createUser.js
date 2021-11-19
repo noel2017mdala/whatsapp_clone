@@ -1,4 +1,5 @@
 import axios from "axios";
+import createCookies from "utils/createCookies";
 export const CREATE_USER = "CREATE_USER";
 export const LOGIN = "LOGIN";
 export const FAILED_LOGIN = "FAILED_LOGIN";
@@ -95,13 +96,19 @@ export const logIn = (userData, cb) => {
         body: JSON.stringify(userData),
       })
         .then((res) => {
-          if (res.ok) {
-            cb(true);
-            dispatch({ type: "LOGIN" });
-          } else {
-            cb(false);
-            dispatch({ type: "FAILED_LOGIN" });
-          }
+          // if (res.ok) {
+          //   console.log(res);
+          //   return;
+          //   cb(true);
+          //   dispatch({ type: "LOGIN" });
+          // } else {
+          //   cb(false);
+          //   dispatch({ type: "FAILED_LOGIN" });
+          // }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
         })
         .catch((e) => {
           // console.log(e);
