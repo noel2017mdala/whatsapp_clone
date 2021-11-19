@@ -5,8 +5,9 @@ import { store } from "../index";
 import socket from "../socket";
 let cookie = new Cookie();
 let userData = cookie.get("userData");
+let { REACT_APP_SERVER_URL } = process.env;
 let messageNotification = new Audio(
-  "http://localhost:8000/public/audio/messageNotification.mp3"
+  `${REACT_APP_SERVER_URL}public/audio/messageNotification.mp3`
 );
 messageNotification.load();
 socket.on("receive-message", (message, data) => {

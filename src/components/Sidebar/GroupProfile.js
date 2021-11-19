@@ -9,6 +9,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Icon from "components/Icon";
 import "./styles/main.css";
 
+let { REACT_APP_SERVER_URL } = process.env;
+
 const GroupProfile = (props) => {
   let { state, stateMethod } = props.uiState;
   let { users } = props.selectedUsers;
@@ -50,7 +52,7 @@ const GroupProfile = (props) => {
       setDisableButton(false);
     } else {
       axios
-        .post("http://localhost:8000/api/v1/group/createGroup", fData)
+        .post(`${REACT_APP_SERVER_URL}api/v1/group/createGroup`, fData)
         .then((res) => {
           if (res.data) {
             notifySuccess("Group created successfully");

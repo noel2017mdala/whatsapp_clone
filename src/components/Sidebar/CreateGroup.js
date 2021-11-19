@@ -7,6 +7,8 @@ import Icon from "components/Icon";
 import { css } from "@emotion/react";
 import "./styles/main.css";
 
+let { REACT_APP_SERVER_URL } = process.env;
+
 const CreateGroup = (props) => {
   let { state, stateMethod, userData } = props.parentState;
   let [checkedUsers, setCheckedUsers] = useState([]);
@@ -98,7 +100,7 @@ const CreateGroup = (props) => {
                         src={
                           e.profileImage
                             ? e.profileImage
-                            : "http://localhost:8000/public/userProfiles/defaultProfile.jpg"
+                            : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
                         }
                         alt={e.profileImage}
                         className="avatar"

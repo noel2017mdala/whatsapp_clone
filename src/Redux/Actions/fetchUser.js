@@ -1,10 +1,11 @@
 import axios from "axios";
 export const FETCH_USER_CONTACT_LIST = "FETCH_USER_CONTACT_LIST";
 export const FETCH_FULL_CONTACT_LIST = "FETCH_FULL_CONTACT_LIST";
+let { REACT_APP_SERVER_URL } = process.env;
 export const fetchContactList = (userId) => {
   let id = userId._id;
 
-  const url = `http://localhost:8000/api/v1/users/getUser/${id}`;
+  const url = `${REACT_APP_SERVER_URL}api/v1/users/getUser/${id}`;
   return async (dispatch) => {
     const response = await fetch(url);
     const resData = await response.json();
@@ -16,7 +17,7 @@ export const fetchContactList = (userId) => {
 
 export const fetchUserFullContactList = (id) => {
   return async (dispatch) => {
-    const url = `http://localhost:8000/api/v1/users/getContactList/${id}`;
+    const url = `${REACT_APP_SERVER_URL}api/v1/users/getContactList/${id}`;
     axios
       .get(url, {
         method: "get",
@@ -33,7 +34,7 @@ export const fetchUserFullContactList = (id) => {
 };
 
 export const createUser = async (id, body) => {
-  const url = `http://localhost:8000/api/v1/users/addContact/${id}`;
+  const url = `${REACT_APP_SERVER_URL}api/v1/users/addContact/${id}`;
   let test = axios
     .put(url, {
       body,

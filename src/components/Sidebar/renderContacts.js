@@ -12,7 +12,7 @@ const RenderContacts = ({ contact }) => {
   let cookie = new Cookie();
   let header = cookie.get("userPayLoad");
   let userData = cookie.get("userData");
-
+  let { REACT_APP_SERVER_URL } = process.env;
   const dispatch = useDispatch();
   useEffect(() => {
     if (contact) {
@@ -51,7 +51,7 @@ const RenderContacts = ({ contact }) => {
             src={
               contact.profileImage
                 ? contact.profileImage
-                : "http://localhost:8000/public/userProfiles/defaultProfile.jpg"
+                : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
             }
             alt={contact.profileImage}
             className="avatar"

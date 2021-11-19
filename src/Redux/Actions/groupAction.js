@@ -2,16 +2,17 @@ import axios from "axios";
 export const GET_GROUP_INFO = "GET_GROUP_INFO";
 export const GET_GROUP_MESSAGES = "GET_GROUP_MESSAGES";
 export const GET_COMMON_GROUPS = "GET_COMMON_GROUPS";
+let { REACT_APP_SERVER_URL } = process.env;
 export const getGroupData = (id) => {
   if (id) {
-    let url = `http://localhost:8000/api/v1/group/getGroup/${id}`;
+    let url = `${REACT_APP_SERVER_URL}api/v1/group/getGroup/${id}`;
 
     // return async (dispatch) => {
     //   const response = await fetch(url);
     //   const resData = await response.json();
     //   let data = resData;
 
-    //   dispatch({ type: GET_GROUP_INFO, payLoad: data });
+    //   dispatch({ type: GET_GROhttp://localhost:8000/UP_INFO, payLoad: data });
     // };
 
     return async (dispatch) => {
@@ -31,7 +32,7 @@ export const getGroupData = (id) => {
 
 export const getGroupMessages = (id) => {
   if (id) {
-    let url = `http://localhost:8000/api/v1/group/chat/getMessages/${id}`;
+    let url = `${REACT_APP_SERVER_URL}api/v1/group/chat/getMessages/${id}`;
 
     return async (dispatch) => {
       axios
@@ -52,7 +53,7 @@ export const getGroupMessages = (id) => {
 export const getCommonGroups = (ids) => {
   const { id, senderId } = ids;
   if (ids) {
-    let url = `http://localhost:8000/api/v1/group/commonGroup/${senderId}/${id}`;
+    let url = `${REACT_APP_SERVER_URL}api/v1/group/commonGroup/${senderId}/${id}`;
 
     return async (dispatch) => {
       axios

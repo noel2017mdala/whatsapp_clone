@@ -2,11 +2,12 @@ import axios from "axios";
 import socket from "../../socket/index";
 export const GET_LAST_MESSAGE = "GET_LAST_MESSAGE";
 export const GET_ALL_MESSAGE = "GET_ALL_MESSAGE";
+let { REACT_APP_SERVER_URL } = process.env;
 
 export const getLastMessage = (myId, id) => {
   let userId = myId._id;
   if (id) {
-    const url = `http://localhost:8000/api/v1/chat/getFilteredMessages/${userId}/${id}`;
+    const url = `${REACT_APP_SERVER_URL}api/v1/chat/getFilteredMessages/${userId}/${id}`;
     return async (dispatch) => {
       const response = await fetch(url);
       const resData = await response.json();
@@ -20,7 +21,7 @@ export const getLastMessage = (myId, id) => {
 export const getAllMessages = (myId, id) => {
   let userId = myId._id;
   if (id) {
-    const url = `http://localhost:8000/api/v1/chat/getAllMessages/${userId}/${id}`;
+    const url = `${REACT_APP_SERVER_URL}api/v1/chat/getAllMessages/${userId}/${id}`;
     return async (dispatch) => {
       const response = await fetch(url);
       const resData = await response.json();
@@ -33,7 +34,7 @@ export const getAllMessages = (myId, id) => {
 
 export const setUserChat = (id, senderId) => {
   return async (dispatch) => {
-    const url = `http://localhost:8000/api/v1/chat/setUserUnread`;
+    const url = `${REACT_APP_SERVER_URL}api/v1/chat/setUserUnread`;
     axios
       .post(url, {
         userId: id,

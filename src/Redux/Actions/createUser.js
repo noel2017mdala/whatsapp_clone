@@ -2,9 +2,10 @@ import axios from "axios";
 export const CREATE_USER = "CREATE_USER";
 export const LOGIN = "LOGIN";
 export const FAILED_LOGIN = "FAILED_LOGIN";
+let { REACT_APP_SERVER_URL } = process.env;
 
 export const createUser = (userData) => {
-  let url = "http://localhost:8000/api/v1/users/createUser";
+  let url = `${REACT_APP_SERVER_URL}api/v1/users/createUser`;
   // const headers = new Headers({
   //   Accept: "application/json",
   //   "Content-Type": "application/json",
@@ -71,16 +72,16 @@ export const createUser = (userData) => {
 };
 
 export const logIn = (userData, cb) => {
-  let url = "http://localhost:8000/api/v1/users/login";
-  const headers = new Headers({
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  });
-  const request = new Request(url, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(userData),
-  });
+  let url = `${REACT_APP_SERVER_URL}api/v1/users/login`;
+  // const headers = new Headers({
+  //   Accept: "application/json",
+  //   "Content-Type": "application/json",
+  // });
+  // const request = new Request(url, {
+  //   method: "POST",
+  //   headers: headers,
+  //   body: JSON.stringify(userData),
+  // });
 
   return async (dispatch) => {
     try {

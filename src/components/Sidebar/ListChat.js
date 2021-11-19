@@ -12,6 +12,7 @@ import { fetchUserFullContactList } from "Redux/Actions/fetchUser";
 import "./styles/main.css";
 
 const ListChart = (props) => {
+  let { REACT_APP_SERVER_URL } = process.env;
   let cookie = new Cookie();
   let userInfo = cookie.get("userData");
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const ListChart = (props) => {
                     src={
                       e.profileImage
                         ? e.profileImage
-                        : "http://localhost:8000/public/userProfiles/defaultProfile.jpg"
+                        : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
                     }
                     alt={e.profileImage}
                     className="avatar"

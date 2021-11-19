@@ -7,6 +7,7 @@ import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
 const GetContact = ({ userData, notificationStatus }) => {
+  let { REACT_APP_SERVER_URL } = process.env;
   let cookie = new Cookie();
   let header = cookie.get("userPayLoad");
   let userInfo = cookie.get("userData");
@@ -41,7 +42,7 @@ const GetContact = ({ userData, notificationStatus }) => {
               src={
                 userData.userDetails.profileImage
                   ? userData.userDetails.profileImage
-                  : "http://localhost:8000/public/userProfiles/defaultProfile.jpg"
+                  : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
               }
               alt={userData.userDetails.profileImage}
               className="avatar"

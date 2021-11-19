@@ -8,12 +8,13 @@ import { store } from "../index";
 import { emitMessage } from "./Socket";
 let cookie = new Cookie();
 let userData = cookie.get("userData");
+let { REACT_APP_SERVER_URL } = process.env;
 let messageNotification = new Audio(
-  "http://localhost:8000/public/audio/messageSending.mp3"
+  `${REACT_APP_SERVER_URL}public/audio/messageSending.mp3`
 );
 
 let messageReceiveNotification = new Audio(
-  "http://localhost:8000/public/audio/messageNotification.mp3"
+  `${REACT_APP_SERVER_URL}public/audio/messageNotification.mp3`
 );
 
 messageReceiveNotification.load();

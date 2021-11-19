@@ -4,7 +4,7 @@ import { Router, Redirect } from "react-router-dom";
 import { logIn } from "Redux/Actions/createUser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+let { REACT_APP_SERVER_URL } = process.env;
 const Login = () => {
   //dispatch variable
   const dispatch = useDispatch();
