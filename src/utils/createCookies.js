@@ -2,19 +2,19 @@ import Cookie from "universal-cookie";
 let cookies = new Cookie();
 const createCookies = (data) => {
   if (data) {
-    cookies("userPayLoad", data.headers, {
+    cookies.set("userPayLoad", data.headers, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookies("userData", data.userDetails, {
+    cookies.set("userData", data.userDetails, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookies("signature", data.signature, {
+    cookies.set("signature", data.signature, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
