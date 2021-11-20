@@ -1,6 +1,7 @@
 import Cookie from "universal-cookie";
 let cookies = new Cookie();
 const createCookies = (data) => {
+  console.log(data);
   if (data) {
     cookies.set("userPayLoad", data.headers, {
       sameSite: "strict",
