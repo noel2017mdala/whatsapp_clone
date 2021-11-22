@@ -109,9 +109,10 @@ export const logIn = (userData, cb) => {
         })
         .then((data) => {
           // console.log(data);
-          if (data) {
+          // return;
+          if (data.status) {
             let addCookies = createCookies(data);
-            console.log(addCookies);
+
             if (addCookies) {
               cb(true);
               dispatch({ type: "LOGIN" });
@@ -119,6 +120,9 @@ export const logIn = (userData, cb) => {
               cb(false);
               dispatch({ type: "FAILED_LOGIN" });
             }
+          } else {
+            cb(false);
+            dispatch({ type: "FAILED_LOGIN" });
           }
         })
         .catch((e) => {

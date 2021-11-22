@@ -1,21 +1,20 @@
 import Cookie from "universal-cookie";
 let cookies = new Cookie();
 const createCookies = (data) => {
-  console.log(data);
   if (data) {
-    cookies.set("userPayLoad", data.headers, {
+    cookies.set("userPayLoad", data.loginDetails.headers, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookies.set("userData", data.userDetails, {
+    cookies.set("userData", data.loginDetails.userDetails, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
     });
 
-    cookies.set("signature", data.signature, {
+    cookies.set("signature", data.loginDetails.signature, {
       sameSite: "strict",
       path: "/",
       expires: new Date(new Date().getTime() + 100000 * 10000),
