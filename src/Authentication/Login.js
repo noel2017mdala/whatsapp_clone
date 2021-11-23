@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Router, Redirect } from "react-router-dom";
 import { logIn } from "Redux/Actions/createUser";
 import { ToastContainer, toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
 import "react-toastify/dist/ReactToastify.css";
+import { css } from "@emotion/react";
 let { REACT_APP_SERVER_URL } = process.env;
 const Login = () => {
   //dispatch variable
@@ -16,6 +18,14 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const override = css`
+    // display: block;
+    // margin: 2em auto;
+    // border-color: #00bfa5;
+  `;
+
+  const [loginState, setLoginState] = useState(false);
 
   const notifySuccess = (message) => {
     toast.success(message, {
@@ -56,9 +66,10 @@ const Login = () => {
   };
   let handleForm = (e) => {
     e.preventDefault();
-
+    setLoginState(true);
     if (uiState.email === "" || uiState.password === "") {
       notifyError("All input values are required");
+      setLoginState(false);
     } else if (!regEx.test(uiState.email)) {
       notifyError("Please enter a valid phone number");
       setUi((prevState) => ({
@@ -66,6 +77,7 @@ const Login = () => {
         email: "",
         password: "",
       }));
+      setLoginState(false);
     } else {
       dispatch(
         logIn(uiState, (result) => {
@@ -85,6 +97,7 @@ const Login = () => {
               email: "",
               password: "",
             }));
+            setLoginState(false);
           }
         })
       );
@@ -120,8 +133,23 @@ const Login = () => {
               onChange={userPassword}
               onPaste={userPassword}
             />
-            <button type="submit" onClick={handleForm}>
-              Login
+            <button
+              type="submit"
+              onClick={handleForm}
+              disabled={loginState ? "disabled" : ""}
+              style={
+                loginState
+                  ? {
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
+            >
+              {loginState ? (
+                <ClipLoader color="#FFFFFF" css={override} size={30} />
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
         </div>
