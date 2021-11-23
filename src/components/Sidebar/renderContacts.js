@@ -35,7 +35,7 @@ const RenderContacts = ({ contact }) => {
   // };
 
   const dispatchAction = () => {
-    console.log("Action Dispatched successfully");
+    // console.log("Action Dispatched successfully");
   };
 
   return (

@@ -47,7 +47,7 @@ const ListChart = (props) => {
               id="back"
               onClick={() => {
                 // setCreateUserState(!state);
-                console.log(state);
+
                 stateMethod({
                   ...state,
                   uiState: !state.uiState,
