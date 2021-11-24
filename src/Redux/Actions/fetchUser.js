@@ -1,4 +1,6 @@
 import axios from "axios";
+import { generateToken } from "utils/generateToken";
+import { getUserDAta } from "utils/userData";
 export const FETCH_USER_CONTACT_LIST = "FETCH_USER_CONTACT_LIST";
 export const FETCH_FULL_CONTACT_LIST = "FETCH_FULL_CONTACT_LIST";
 let { REACT_APP_SERVER_URL } = process.env;
@@ -7,7 +9,12 @@ export const fetchContactList = (userId) => {
 
   const url = `${REACT_APP_SERVER_URL}api/v1/users/getUser/${id}`;
   return async (dispatch) => {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        "access-token": generateToken(),
+        "user-id": getUserDAta()._id,
+      },
+    });
     const resData = await response.json();
     let data = resData;
 
@@ -22,6 +29,10 @@ export const fetchUserFullContactList = (id) => {
       .get(url, {
         method: "get",
         responseType: "stream",
+        headers: {
+          "access-token": generateToken(),
+          "user-id": getUserDAta()._id,
+        },
       })
       .then((response) => {
         dispatch({ type: FETCH_FULL_CONTACT_LIST, payLoad: response.data });
@@ -36,9 +47,18 @@ export const fetchUserFullContactList = (id) => {
 export const createUser = async (id, body) => {
   const url = `${REACT_APP_SERVER_URL}api/v1/users/addContact/${id}`;
   let test = axios
-    .put(url, {
-      body,
-    })
+    .put(
+      url,
+      {
+        body,
+      },
+      {
+        headers: {
+          "access-token": generateToken(),
+          "user-id": getUserDAta()._id,
+        },
+      }
+    )
     .then((res) => {
       // console.log(res.data);
       return res.data;
