@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import Icon from "components/Icon";
+import { generateToken } from "utils/generateToken";
 import "./styles/main.css";
 
 let { REACT_APP_SERVER_URL } = process.env;
@@ -52,7 +53,12 @@ const GroupProfile = (props) => {
       setDisableButton(false);
     } else {
       axios
-        .post(`${REACT_APP_SERVER_URL}api/v1/group/createGroup`, fData)
+        .post(`${REACT_APP_SERVER_URL}api/v1/group/createGroup`, fData, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
         .then((res) => {
           if (res.data) {
             notifySuccess("Group created successfully");

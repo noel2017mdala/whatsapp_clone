@@ -1,4 +1,6 @@
 import axios from "axios";
+import { generateToken } from "utils/generateToken";
+import { getUserDAta } from "utils/userData";
 export const GET_GROUP_INFO = "GET_GROUP_INFO";
 export const GET_GROUP_MESSAGES = "GET_GROUP_MESSAGES";
 export const GET_COMMON_GROUPS = "GET_COMMON_GROUPS";
@@ -17,7 +19,12 @@ export const getGroupData = (id) => {
 
     return async (dispatch) => {
       axios
-        .get(url)
+        .get(url, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
         .then((res) => {
           if (res.data) {
             dispatch({ type: GET_GROUP_INFO, payLoad: res.data });
@@ -36,7 +43,12 @@ export const getGroupMessages = (id) => {
 
     return async (dispatch) => {
       axios
-        .get(url)
+        .get(url, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
         .then((res) => {
           if (res.data) {
             dispatch({ type: GET_GROUP_MESSAGES, payLoad: res.data });
@@ -56,7 +68,12 @@ export const getCommonGroups = (ids) => {
 
     return async (dispatch) => {
       axios
-        .get(url)
+        .get(url, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
         .then((res) => {
           if (res.data) {
             // console.log(res.data);
