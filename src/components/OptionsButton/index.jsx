@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Icon from "components/Icon";
 import { getUserDAta, userLogout } from "utils/userData";
 import axios from "axios";
+import { generateToken } from "utils/generateToken";
+
 import "./styles/main.css";
 
 let { REACT_APP_SERVER_URL } = process.env;
@@ -24,6 +26,10 @@ const OptionsBtn = ({
       .get(url, {
         method: "GET",
         responseType: "stream",
+        headers: {
+          "access-token": generateToken(),
+          "user-id": getUserDAta()._id,
+        },
       })
       .then((res) => {
         if (res.data._id) {

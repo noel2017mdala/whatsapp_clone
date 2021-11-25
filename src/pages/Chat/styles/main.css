@@ -162,6 +162,19 @@
   display: flex;
 }
 
+.group_chat_message {
+  padding: 6px 30px 10px 9px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: #000000;
+  width: fit-content;
+  max-width: 95%;
+  line-height: 20px;
+  border-radius: 5px;
+  position: relative;
+  white-space: pre-line;
+}
+
 .chat__msg.chat__img-wrapper {
   padding: 4px;
   width: 95%;
@@ -189,6 +202,17 @@
   border-right: 6px solid white;
   border-bottom: 6px solid transparent;
   border-left: 6px solid transparent;
+}
+.user-details {
+  color: #e847aa;
+  cursor: pointer;
+}
+.user-details:hover {
+  text-decoration: underline;
+}
+
+.message_body {
+  color: black;
 }
 
 .chat__msg-group > *:nth-child(1):not(.chat__msg--rxd)::before,

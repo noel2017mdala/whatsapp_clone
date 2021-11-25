@@ -51,6 +51,7 @@ export const getGroupMessages = (id) => {
         })
         .then((res) => {
           if (res.data) {
+            console.log(res.data);
             dispatch({ type: GET_GROUP_MESSAGES, payLoad: res.data });
           }
         })
