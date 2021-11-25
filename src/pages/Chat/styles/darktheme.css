@@ -222,3 +222,7 @@
   color: white;
   /* background-color: ; */
 }
+
+.dark-theme .message_body {
+  color: white;
+}

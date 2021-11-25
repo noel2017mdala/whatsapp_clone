@@ -4,7 +4,7 @@ import Icon from "components/Icon";
 
 const UserProfile = (props) => {
   let { state, stateMethod, userData } = props.parentState;
-  console.log(userData);
+
   return (
     <>
       <aside className="sidebar  header_sidebar_container">

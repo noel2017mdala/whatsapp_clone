@@ -1,6 +1,7 @@
 import Icon from "components/Icon";
 import React, { useEffect, useRef, useState } from "react";
 import Cookie from "universal-cookie";
+import { Link } from "react-router-dom";
 import media from "assets/images/women.jpeg";
 import formatTime from "utils/formatTime";
 
@@ -35,19 +36,6 @@ const Convo = ({ lastMsgRef, messages, messageEndRef, scrollFunction }) => {
   useEffect(() => {
     scrollFunction();
   }, [messages]);
-
-  // let getDayOfWeek = (date) => {
-  //   let days = [
-  //     "Sunday",
-  //     "Monday",
-  //     "Tuesday",
-  //     "Wednesday",
-  //     "Thursday",
-  //     "Friday",
-  //     "Saturday",
-  //   ];
-
-  // };
 
   return (
     <div>
@@ -170,25 +158,35 @@ const Convo = ({ lastMsgRef, messages, messageEndRef, scrollFunction }) => {
                   {messagesData.attachedImage ? (
                     "Image Was Attached"
                   ) : messagesData.from._id !== userData._id ? (
-                    <p
-                      className="chat__msg chat__msg--rxd"
-                      ref={assignRef(index, messages)}
-                    >
-                      <span>{messagesData.messagesBody}</span>
-                      <span className="chat__msg-filler"> </span>
-                      <span className="chat__msg-footer">
-                        {formatTime(messagesData.timeSent)}
-                      </span>
-                      <button
-                        aria-label="Message options"
-                        className="chat__msg-options"
+                    <>
+                      <div
+                        className="group_chat_message chat__msg--rxd"
+                        ref={assignRef(index, messages)}
                       >
-                        <Icon
-                          id="downArrow"
-                          className="chat__msg-options-icon"
-                        />
-                      </button>
-                    </p>
+                        <p className="user-details">
+                          <Link to={`/chat/${messagesData.from._id}`}>
+                            {messagesData.from.name}
+                          </Link>
+                        </p>
+
+                        <span className="message_body">
+                          {messagesData.messagesBody}
+                        </span>
+                        <span className="chat__msg-filler"> </span>
+                        <span className="chat__msg-footer">
+                          {formatTime(messagesData.timeSent)}
+                        </span>
+                        <button
+                          aria-label="Message options"
+                          className="chat__msg-options"
+                        >
+                          <Icon
+                            id="downArrow"
+                            className="chat__msg-options-icon"
+                          />
+                        </button>
+                      </div>
+                    </>
                   ) : (
                     <p
                       className="chat__msg chat__msg--sent"
