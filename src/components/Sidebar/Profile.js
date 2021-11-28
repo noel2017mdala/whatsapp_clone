@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Icon from "components/Icon";
+import { getUserProfile } from "../../Redux/Actions/sideBar";
 
 const UserProfile = (props) => {
   let { state, stateMethod, userData } = props.parentState;
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -14,10 +16,11 @@ const UserProfile = (props) => {
               className="back_pointer"
               id="back"
               onClick={() => {
-                stateMethod({
-                  ...state,
-                  profileUi: !state.profileUi,
-                });
+                // stateMethod({
+                //   ...state,
+                //   profileUi: !state.profileUi,
+                // });
+                dispatch(getUserProfile());
               }}
             />
             <p>Profile</p>

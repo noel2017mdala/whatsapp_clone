@@ -6,6 +6,12 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Icon from "components/Icon";
 import { css } from "@emotion/react";
 import "./styles/main.css";
+import {
+  getNewChart,
+  createGroupState,
+  createNewUserState,
+  getUserProfile,
+} from "../../Redux/Actions/sideBar";
 
 let { REACT_APP_SERVER_URL } = process.env;
 
@@ -53,10 +59,7 @@ const CreateGroup = (props) => {
               className="back_pointer"
               id="back"
               onClick={() => {
-                stateMethod({
-                  ...state,
-                  groupUi: !state.groupUi,
-                });
+                dispatch(createGroupState());
               }}
             />
             <p>Add group participants</p>

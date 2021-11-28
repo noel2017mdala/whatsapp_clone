@@ -1,13 +1,20 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import groupAvatar from "assets/images/women.png";
 import media from "assets/images/placeholder.jpeg";
 import Checkbox from "components/Checkbox";
 import Icon from "components/Icon";
 import { getUserDAta } from "utils/userData";
+import { newGroupList } from "Redux/Actions/sideBar";
 
 const GroupDetails = (props) => {
   const { group, openProfileSidebar, openSearchSidebar } = props;
+  const dispatch = useDispatch();
+
+  const select = useSelector((e) => {
+    return e;
+  });
 
   return (
     <div className="profile">
@@ -153,14 +160,26 @@ const GroupDetails = (props) => {
               ))}
             </div>
           </div>
+
+          {group.data.groupAdmin.includes(getUserDAta()._id) ? (
+            <div
+              className="profile__section profile__section--danger"
+              onClick={() => {
+                dispatch(newGroupList());
+              }}
+            >
+              <Icon id="block" className="profile__danger-icon" />
+              <p className="profile__danger-text"> Add user </p>
+            </div>
+          ) : null}
           <div className="profile__section profile__section--danger">
-            <Icon id="block" className="profile__danger-icon" />
-            <p className="profile__danger-text"> Exit group </p>
+            <Icon id="thumbsDown" className="profile__danger-icon" />
+            <p className="profile__danger-text"> Report group</p>
           </div>
 
           <div className="profile__section profile__section--danger">
-            <Icon id="thumbsDown" className="profile__danger-icon" />
-            <p className="profile__danger-text"> Report group </p>
+            <Icon id="block" className="profile__danger-icon" />
+            <p className="profile__danger-text"> Exit group </p>
           </div>
 
           {/* <div className="profile__section profile__section--danger">

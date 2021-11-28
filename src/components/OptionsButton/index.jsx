@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Icon from "components/Icon";
 import { getUserDAta, userLogout } from "utils/userData";
 import axios from "axios";
 import { generateToken } from "utils/generateToken";
+import {
+  createGroupState,
+  createNewUserState,
+  getUserProfile,
+} from "../../Redux/Actions/sideBar";
 
 import "./styles/main.css";
 
@@ -41,6 +47,11 @@ const OptionsBtn = ({
       });
   };
 
+  const dispatch = useDispatch();
+  const select = useSelector((e) => {
+    return e;
+  });
+
   return (
     <div className="pos-rel">
       <button
@@ -66,27 +77,30 @@ const OptionsBtn = ({
             onClick={(e) => {
               if (e.target.textContent === "New user") {
                 // console.log(parentState.stateMethod);
-                parentState.stateMethod({
-                  ...parentState.state,
-                  uiState: false,
-                  newUserState: true,
-                  groupUi: false,
-                });
+                // parentState.stateMethod({
+                //   ...parentState.state,
+                //   uiState: false,
+                //   newUserState: true,
+                //   groupUi: false,
+                // });
+                dispatch(createNewUserState());
               } else if (e.target.textContent === "New group") {
-                parentState.stateMethod({
-                  ...parentState.state,
-                  uiState: false,
-                  newUserState: false,
-                  groupUi: true,
-                });
+                // parentState.stateMethod({
+                //   ...parentState.state,
+                //   uiState: false,
+                //   newUserState: false,
+                //   groupUi: true,
+                // });
+                dispatch(createGroupState());
               } else if (e.target.textContent === "Profile") {
-                parentState.stateMethod({
-                  ...parentState.state,
-                  uiState: false,
-                  newUserState: false,
-                  groupUi: false,
-                  profileUi: true,
-                });
+                // parentState.stateMethod({
+                //   ...parentState.state,
+                //   uiState: false,
+                //   newUserState: false,
+                //   groupUi: false,
+                //   profileUi: true,
+                // });
+                dispatch(getUserProfile());
               } else if (e.target.textContent === "Log out") {
                 logUserOut();
               }

@@ -9,6 +9,7 @@ import Cookie from "universal-cookie";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
 import { fetchUserFullContactList } from "Redux/Actions/fetchUser";
+import { getNewChart } from "../../Redux/Actions/sideBar";
 import "./styles/main.css";
 
 const ListChart = (props) => {
@@ -47,11 +48,8 @@ const ListChart = (props) => {
               id="back"
               onClick={() => {
                 // setCreateUserState(!state);
-                console.log(state);
-                stateMethod({
-                  ...state,
-                  uiState: !state.uiState,
-                });
+
+                dispatch(getNewChart());
               }}
             />
             <p>New Chat</p>
@@ -84,10 +82,7 @@ const ListChart = (props) => {
                 to={`/chat/${e._id}`}
                 onClick={() => {
                   dispatchAction(e._id);
-                  stateMethod({
-                    ...state,
-                    uiState: !state.uiState,
-                  });
+                  dispatch(getNewChart());
                 }}
               >
                 <div className="sidebar-contact__avatar-wrapper">
