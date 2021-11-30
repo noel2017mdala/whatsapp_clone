@@ -1,43 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserFullContactList } from "Redux/Actions/fetchUser";
-import GroupProfile from "./GroupProfile";
-import ClipLoader from "react-spinners/ClipLoader";
-import Icon from "components/Icon";
 import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Link } from "react-router-dom";
+import GetContact from "./getContacts";
+import Icon from "components/Icon";
+import { ToastContainer, toast } from "react-toastify";
+import Cookie from "universal-cookie";
+import { getAllMessages } from "../../Redux/Actions/MessagesAction";
+import { setUserChat } from "../../Redux/Actions/MessagesAction";
+import { fetchUserFullContactList } from "Redux/Actions/fetchUser";
+import { newGroupList } from "../../Redux/Actions/sideBar";
+import { clearGroupList } from "../../Redux/Actions/sideBar";
+import { addUserToGroup } from "../../Redux/Actions/sideBar";
+import { getUserDAta } from "utils/userData";
+import { notifySuccess, notifyError } from "utils/notification";
+import { getGroupData } from "Redux/Actions/groupAction";
 import "./styles/main.css";
-import {
-  getNewChart,
-  createGroupState,
-  createNewUserState,
-  getUserProfile,
-} from "../../Redux/Actions/sideBar";
 
-let { REACT_APP_SERVER_URL } = process.env;
-
-const CreateGroup = (props) => {
-  let { state, stateMethod, userData } = props.parentState;
+const AddGroupUsers = () => {
   let [checkedUsers, setCheckedUsers] = useState([]);
-  let [uiState, setUiState] = useState({
-    groupProfile: false,
-  });
+  let [loader, setLoader] = useState(false);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchUserFullContactList(userData._id));
+    dispatch(fetchUserFullContactList(getUserDAta()._id));
   }, [dispatch]);
 
   let select = useSelector((e) => {
-    return e.fetchFullContactList;
+    return e;
   });
+
+  let { REACT_APP_SERVER_URL } = process.env;
 
   const override = css`
     display: block;
     margin: 2em auto;
-    border-color: #00bfa5;
+    border-color: #ffffff;
   `;
 
   const handleChange = (e) => {
+    //checks if the user us checked and also if the usr is already not in the state
     if (e.target.checked & !checkedUsers.includes(e.target.value)) {
       setCheckedUsers([...checkedUsers, e.target.value]);
     } else {
@@ -50,7 +54,30 @@ const CreateGroup = (props) => {
     }
   };
 
-  return !uiState.groupProfile ? (
+  const addUser = async (id) => {
+    if (id) {
+      setLoader(true);
+      dispatch(
+        addUserToGroup({ checkedUsers, id }, (data) => {
+          console.log(data.status);
+          if (data.status) {
+            setLoader(false);
+            notifySuccess(data.message);
+            dispatch(getGroupData(id));
+            dispatch(clearGroupList());
+          } else {
+            setLoader(false);
+            notifyError(data.message);
+            dispatch(clearGroupList());
+          }
+        })
+      );
+    }
+    //console.log(checkedUsers);
+    // dispatch(addUserToGroup(checkedUsers))
+  };
+
+  return (
     <>
       <aside className="sidebar  header_sidebar_container">
         <header className="header_sidebar">
@@ -59,10 +86,11 @@ const CreateGroup = (props) => {
               className="back_pointer"
               id="back"
               onClick={() => {
-                dispatch(createGroupState());
+                // setCreateUserState(!state);
+                dispatch(clearGroupList());
               }}
             />
-            <p>Add group participants</p>
+            <p> Add participants </p>
           </div>
         </header>
         <div className="search-wrapper">
@@ -77,14 +105,14 @@ const CreateGroup = (props) => {
         <div className="sidebar__contacts">
           {!select ? (
             <ClipLoader color="#00bfa5" css={override} size={30} />
-          ) : !select.data ? (
+          ) : !select.fetchFullContactList.data ? (
             <ClipLoader color="#00bfa5" css={override} size={30} />
-          ) : select.data.length === undefined ? (
+          ) : select.fetchFullContactList.data.length === undefined ? (
             <p className="contactsNotFound">No Contact Found</p>
           ) : select.data < 1 ? (
             <p className="contactsNotFound">No Contact Found</p>
           ) : (
-            select.data.map((e, index) => (
+            select.fetchFullContactList.data.map((e, index) => (
               <div key={index}>
                 <label>
                   <div
@@ -114,24 +142,34 @@ const CreateGroup = (props) => {
                       <div className="sidebar-contact__top-content">
                         <h2 className="sidebar-contact__name">{e.name}</h2>
                         {/* <span className="sidebar-contact__time">
-             {formatTime(userData.userLastMessage.timeSent)}
-           </span> */}
+         {formatTime(userData.userLastMessage.timeSent)}
+        </span> */}
                       </div>
 
                       <div className="sidebar-contact__bottom-content">
                         <p className="sidebar-contact__message-wrapper">
-                          This is for user status
+                          {select.sideBarReducer.data.resData.includes(
+                            e._id.toString()
+                          )
+                            ? "Already added to the group"
+                            : "user status"}
                         </p>
                       </div>
                     </div>
-
-                    <input
-                      type="checkbox"
-                      className="checkBox"
-                      onChange={handleChange}
-                      value={e._id}
-                      checked={checkedUsers.includes(e._id) ? "checked" : ""}
-                    />
+                    {/* Shows when the user is not added to the group */}
+                    {select.sideBarReducer.data.resData.includes(
+                      e._id.toString()
+                    ) ? (
+                      ""
+                    ) : (
+                      <input
+                        type="checkbox"
+                        className="checkBox"
+                        onChange={handleChange}
+                        value={e._id}
+                        checked={checkedUsers.includes(e._id) ? "checked" : ""}
+                      />
+                    )}
                   </div>
                 </label>
               </div>
@@ -139,35 +177,27 @@ const CreateGroup = (props) => {
           )}
         </div>
         {checkedUsers.length > 0 ? (
-          <div
+          <button
             className="group_button"
+            disabled={loader}
+            type="submit"
             onClick={() => {
-              setUiState({
-                ...uiState,
-                groupProfile: !uiState.groupProfile,
-              });
+              addUser(select.sideBarReducer.data.groupId);
             }}
           >
-            <Icon className="back_pointer" id="back" />
-          </div>
-        ) : null}
+            {loader ? (
+              <ClipLoader color="#00bfa5" css={override} size={20} />
+            ) : (
+              <Icon className="" id="singleTick" />
+            )}
+          </button>
+        ) : (
+          ""
+        )}
+        <ToastContainer />
       </aside>
     </>
-  ) : (
-    <GroupProfile
-      uiState={{
-        state: uiState,
-        stateMethod: setUiState,
-      }}
-      selectedUsers={{
-        users: checkedUsers,
-      }}
-      mainState={{
-        mainState: state,
-        mainStateMethod: stateMethod,
-      }}
-    />
   );
 };
 
-export default CreateGroup;
+export default AddGroupUsers;

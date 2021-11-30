@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
 import { fetchUserFullContactList, createUser } from "Redux/Actions/fetchUser";
 import "./styles/main.css";
+import { createNewUserState } from "../../Redux/Actions/sideBar";
 
 const CreateContacts = (props) => {
   let { state, stateMethod, userData } = props.parentState;
@@ -88,10 +89,12 @@ const CreateContacts = (props) => {
               className="back_pointer"
               id="back"
               onClick={() => {
-                stateMethod({
-                  ...state,
-                  newUserState: !state.newUserState,
-                });
+                // stateMethod({
+                //   ...state,
+                //   newUserState: !state.newUserState,
+                // });
+
+                dispatch(createNewUserState());
               }}
             />
             <p>Add Contact</p>

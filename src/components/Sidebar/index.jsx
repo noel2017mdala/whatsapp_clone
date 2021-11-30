@@ -18,7 +18,9 @@ import ListChart from "./ListChat";
 import UserProfile from "./Profile";
 import CreateGroup from "./CreateGroup";
 import CreateContact from "./CreateContact";
+import AddGroupUsers from "./addGroupUsers";
 import { useUsersContext } from "context/usersContext";
+import { getNewChart, getUserProfile } from "../../Redux/Actions/sideBar";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -60,7 +62,7 @@ const Sidebar = () => {
 
   // console.log(select.fetchContactList);
 
-  return createUser.uiState ? (
+  return select.sideBarReducer.uiState ? (
     <ListChart
       parentState={{
         state: createUser,
@@ -69,7 +71,7 @@ const Sidebar = () => {
         compState: select,
       }}
     />
-  ) : createUser.newUserState ? (
+  ) : select.sideBarReducer.newUserState ? (
     <CreateContact
       parentState={{
         state: createUser,
@@ -77,7 +79,7 @@ const Sidebar = () => {
         userData: userData,
       }}
     />
-  ) : createUser.groupUi ? (
+  ) : select.sideBarReducer.groupUi ? (
     <CreateGroup
       parentState={{
         state: createUser,
@@ -85,7 +87,7 @@ const Sidebar = () => {
         userData: userData,
       }}
     />
-  ) : createUser.profileUi ? (
+  ) : select.sideBarReducer.profileUi ? (
     <UserProfile
       parentState={{
         state: createUser,
@@ -93,6 +95,8 @@ const Sidebar = () => {
         userData: userData,
       }}
     />
+  ) : select.sideBarReducer.groupListUi ? (
+    <AddGroupUsers />
   ) : (
     <>
       <aside className="sidebar">
@@ -103,10 +107,11 @@ const Sidebar = () => {
               alt={userData.name}
               className="avatar"
               onClick={() => {
-                setCreateUserState({
-                  ...createUser,
-                  profileUi: true,
-                });
+                dispatch(getUserProfile());
+                // setCreateUserState({
+                //   ...createUser,
+                //   profileUi: true,
+                // });
               }}
             />
           </div>
@@ -121,10 +126,11 @@ const Sidebar = () => {
               className="sidebar__action"
               aria-label="New chat"
               onClick={() => {
-                setCreateUserState({
-                  ...createUser,
-                  uiState: true,
-                });
+                dispatch(getNewChart());
+                // setCreateUserState({
+                //   ...createUser,
+                //   uiState: true,
+                // });
               }}
             >
               <Icon id="chat" className="sidebar__action-icon" />

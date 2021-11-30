@@ -686,6 +686,10 @@
   font-size: 12px;
   color: #16c69f;
 }
+
+.participants {
+  cursor: pointer;
+}
 .profile__group-text {
   flex: 1;
   overflow: hidden;
