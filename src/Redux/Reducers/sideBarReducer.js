@@ -5,6 +5,7 @@ import {
   PROFILE,
   NEW_GROUP_LIST,
   ADD_GROUP_USERS,
+  CLEAR_UI,
 } from "Redux/Actions/sideBar";
 
 let initialState = {
@@ -61,6 +62,16 @@ const sideBarReducer = (state = initialState, action) => {
         groupUi: false,
         profileUi: false,
         groupListUi: !state.groupListUi,
+        data: action.payLoad,
+      };
+      break;
+
+    case CLEAR_UI:
+      return {
+        uiState: false,
+        newUserState: false,
+        groupUi: false,
+        profileUi: false,
       };
       break;
     default:

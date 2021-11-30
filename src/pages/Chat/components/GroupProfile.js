@@ -165,11 +165,13 @@ const GroupDetails = (props) => {
             <div
               className="profile__section profile__section--danger"
               onClick={() => {
-                dispatch(newGroupList());
+                dispatch(newGroupList(group.data));
               }}
             >
               <Icon id="block" className="profile__danger-icon" />
-              <p className="profile__danger-text"> Add user </p>
+              <p className="profile__danger-text participants">
+                Add participants
+              </p>
             </div>
           ) : null}
           <div className="profile__section profile__section--danger">
