@@ -99,3 +99,8 @@
 .sidebar__contacts .contactsNotFound {
   color: #ffffff;
 }
+
+.dark-theme .user_about textarea {
+  background-color: rgb(19, 28, 33);
+  color: white;
+}

@@ -1,6 +1,9 @@
 import axios from "axios";
+import { generateToken } from "utils/generateToken";
+import { getUserDAta } from "utils/userData";
 import createCookies from "utils/createCookies";
 export const CREATE_USER = "CREATE_USER";
+export const USER_STATE = "USER_STATE";
 export const LOGIN = "LOGIN";
 export const FAILED_LOGIN = "FAILED_LOGIN";
 let { REACT_APP_SERVER_URL } = process.env;
@@ -132,4 +135,30 @@ export const logIn = (userData, cb) => {
       console.log(err);
     }
   };
+};
+
+export const getUser = (id) => {
+  if (id) {
+    let url = `${REACT_APP_SERVER_URL}api/v1/users/getUserData/${id}`;
+
+    return async (dispatch) => {
+      axios
+        .get(url, {
+          method: "get",
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
+        .then((res) => {
+          dispatch({
+            type: USER_STATE,
+            payLoad: res.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }
 };

@@ -20,6 +20,7 @@ import CreateGroup from "./CreateGroup";
 import CreateContact from "./CreateContact";
 import AddGroupUsers from "./addGroupUsers";
 import { useUsersContext } from "context/usersContext";
+import { getUser } from "Redux/Actions/createUser";
 import { getNewChart, getUserProfile } from "../../Redux/Actions/sideBar";
 
 const Sidebar = () => {
@@ -41,6 +42,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     dispatch(fetchContactList(userData));
+    dispatch(getUser(userData._id));
     // dispatch(getLastMessage("61371b75e46bae4721e34ca9"));
   }, [dispatch]);
 
