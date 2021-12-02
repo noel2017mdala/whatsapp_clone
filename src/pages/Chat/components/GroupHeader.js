@@ -1,6 +1,7 @@
 import React from "react";
 import Icon from "components/Icon";
 import OptionsBtn from "components/OptionsButton";
+import { getUserDAta } from "utils/userData";
 
 const GroupHeader = (props) => {
   const { userDetails, openProfileSidebar, openSearchSidebar } = props;
@@ -23,7 +24,7 @@ const GroupHeader = (props) => {
             <h2 className="chat__contact-name">{userDetails.data.groupName}</h2>
             <p className="chat__contact-desc">
               {userDetails.data.groupUsers.map((user, index) => {
-                return `${user.name} ${
+                return `${user._id !== getUserDAta()._id ? user.name : "You"} ${
                   userDetails.data.groupUsers.length - 2 >= index ? "," : ""
                 } `;
               })}

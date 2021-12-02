@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import groupAvatar from "assets/images/women.png";
@@ -7,14 +7,70 @@ import Checkbox from "components/Checkbox";
 import Icon from "components/Icon";
 import { getUserDAta } from "utils/userData";
 import { newGroupList } from "Redux/Actions/sideBar";
+import ClipLoader from "react-spinners/ClipLoader";
+import { generateToken } from "utils/generateToken";
+import uuid from "react-uuid";
+import { ToastContainer, toast } from "react-toastify";
+import { css } from "@emotion/react";
+import { notifySuccess, notifyError } from "../../../utils/notification";
+import { getGroupData } from "Redux/Actions/groupAction";
+import { fetchContactList } from "Redux/Actions/fetchUser";
+import axios from "axios";
+let { REACT_APP_SERVER_URL } = process.env;
 
 const GroupDetails = (props) => {
   const { group, openProfileSidebar, openSearchSidebar } = props;
   const dispatch = useDispatch();
+  let [buttonUi, setButtonUi] = useState({
+    editName: false,
+  });
+  let [uiState, changeUiState] = useState(false);
+  let [userInput, setUserInput] = useState({
+    groupName: "",
+  });
+  let [file, setFile] = useState();
+  let [disAbleButton, setDisableButton] = useState(false);
 
   const select = useSelector((e) => {
     return e;
   });
+
+  const override = css`
+    display: block;
+    margin: 2em auto;
+    border-color: #ffffff;
+  `;
+
+  const uploadFile = (e) => {
+    e.preventDefault();
+    setDisableButton(true);
+    const fData = new FormData();
+    fData.append("Uid", uuid());
+    fData.append("groupName", userInput.groupName);
+    fData.append("created_by", getUserDAta()._id);
+    fData.append("group_id", group.data._id);
+    fData.append("file", file);
+    console.log(fData);
+    axios
+      .put(`${REACT_APP_SERVER_URL}api/v1/group/updateGroupProfile`, fData, {
+        headers: {
+          "access-token": generateToken(),
+          "user-id": getUserDAta()._id,
+        },
+      })
+      .then((res) => {
+        if (res.data) {
+          changeUiState(false);
+          setDisableButton(false);
+          dispatch(getGroupData(group.data._id));
+          dispatch(fetchContactList(getUserDAta()));
+          notifySuccess(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="profile">
@@ -27,8 +83,78 @@ const GroupDetails = (props) => {
                 alt={group.data.groupName}
                 className="avatar"
               />
+              {group.data.groupAdmin.includes(getUserDAta()._id) ? (
+                <button className="profile_btn">
+                  <input
+                    type="file"
+                    id="file"
+                    required="required"
+                    className="profile_btn"
+                    onChange={(e) => {
+                      changeUiState(true);
+                      const file = e.target.files[0];
+                      setFile(file);
+                    }}
+                  />
+                  Add Image
+                </button>
+              ) : (
+                ""
+              )}
             </div>
-            <h2 className="profile__name"> {group.data.groupName} </h2>
+
+            <div className="username_container">
+              <input
+                className={`profile__name ${
+                  buttonUi.editName ? "inputActive" : ""
+                }`}
+                type="text"
+                defaultValue={group.data.groupName}
+                readOnly={buttonUi.editName ? false : true}
+                onChange={(e) => {
+                  changeUiState(true);
+                  setUserInput({
+                    ...userInput,
+                    groupName: e.target.value,
+                  });
+                }}
+              />
+
+              {group.data.groupAdmin.includes(getUserDAta()._id) ? (
+                <button
+                  className="edit-name"
+                  onClick={() => {
+                    setButtonUi({
+                      ...buttonUi,
+                      editName: !buttonUi.editName,
+                    });
+                  }}
+                >
+                  {buttonUi.editName ? (
+                    <Icon className="" id="singleTick" />
+                  ) : (
+                    "Edit"
+                  )}
+                </button>
+              ) : (
+                ""
+              )}
+
+              {uiState ? (
+                <button
+                  className="group_button group_button_edit"
+                  onClick={uploadFile}
+                  disabled={disAbleButton}
+                  type="submit"
+                >
+                  {disAbleButton ? (
+                    <ClipLoader color="#00bfa5" css={override} size={20} />
+                  ) : (
+                    <Icon className="" id="singleTick" />
+                  )}
+                </button>
+              ) : null}
+            </div>
           </div>
 
           <div className="profile__section profile__section--media">
@@ -192,6 +318,7 @@ const GroupDetails = (props) => {
       ) : (
         ""
       )}
+      <ToastContainer />
     </div>
   );
 };
