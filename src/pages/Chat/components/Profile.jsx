@@ -88,9 +88,7 @@ const Profile = ({ user, history }) => {
           <h2 className="profile__heading"> About and phone number </h2>
         </div>
         <ul>
-          <li className="profile__about-item">
-            Out here saving the world, one block of code at a time.
-          </li>
+          <li className="profile__about-item">{user.userAbout}</li>
           <li className="profile__about-item">{`+265 0${user.phoneNumber}`}</li>
         </ul>
       </div>

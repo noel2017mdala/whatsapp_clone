@@ -122,7 +122,7 @@ const GroupDetails = (props) => {
                             {e.id === getUserDAta()._id ? "You" : e.name}
                           </p>
                           <p className="profile__group-text profile__group-text--bottom">
-                            {e.name}
+                            {e.userAbout}
                           </p>
                         </div>
                         <div className="groupAdmin">
@@ -146,7 +146,7 @@ const GroupDetails = (props) => {
                           {e.id === getUserDAta()._id ? "You" : e.name}
                         </p>
                         <p className="profile__group-text profile__group-text--bottom">
-                          {e.name}
+                          {e.userAbout}
                         </p>
                       </div>
                       <div className="groupAdmin">

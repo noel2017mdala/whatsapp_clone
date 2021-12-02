@@ -105,7 +105,13 @@ const Sidebar = () => {
         <header className="header">
           <div className="sidebar__avatar-wrapper">
             <img
-              src={userData.profileImage}
+              src={
+                !select.userState
+                  ? ""
+                  : !select.userState.data
+                  ? ""
+                  : select.userState.data.profileImage
+              }
               alt={userData.name}
               className="avatar"
               onClick={() => {
