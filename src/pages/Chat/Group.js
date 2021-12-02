@@ -133,7 +133,7 @@ const Group = () => {
         </ChatSidebar>
 
         <ChatSidebar
-          heading="Contact Info"
+          heading="Group Info"
           active={showProfileSidebar}
           closeSidebar={() => setShowProfileSidebar(false)}
         >

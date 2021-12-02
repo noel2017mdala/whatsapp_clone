@@ -55,6 +55,12 @@
   position: relative;
   top: 5.5em;
 }
+
+.group_button_edit {
+  position: relative;
+  top: 1em;
+}
+
 .imageContainer {
   background-color: #00af9c;
   width: 35%;
