@@ -120,7 +120,7 @@ const CreateGroup = (props) => {
 
                       <div className="sidebar-contact__bottom-content">
                         <p className="sidebar-contact__message-wrapper">
-                          This is for user status
+                          {e.userAbout}
                         </p>
                       </div>
                     </div>
