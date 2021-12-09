@@ -1,15 +1,20 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Icon from "components/Icon";
 import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
 import formatTime from "utils/formatTime";
 import Cookie from "universal-cookie";
+import ClipLoader from "react-spinners/ClipLoader";
+import "./styles/main.css";
 import { getAllMessages } from "../../Redux/Actions/MessagesAction";
 import { setUserChat } from "../../Redux/Actions/MessagesAction";
+import { getUserDAta } from "utils/userData";
 import {
   getGroupData,
   getGroupMessages,
 } from "../../Redux/Actions/groupAction";
+import { getUserGroups } from "../../Redux/Actions/groupAction";
 
 const GetGroups = (userData) => {
   const dispatch = useDispatch();
@@ -19,12 +24,32 @@ const GetGroups = (userData) => {
     dispatch(getGroupData(id));
     dispatch(getGroupMessages(id));
   };
+
+  const select = useSelector((e) => {
+    return e;
+  });
+
+  useEffect(() => {
+    dispatch(getUserGroups(getUserDAta()._id));
+  }, []);
+
+  const override = css`
+    display: block;
+    margin: 2em auto;
+    border-color: #00bfa5;
+  `;
+
+  let { REACT_APP_SERVER_URL } = process.env;
   return (
     <>
-      {userData.userData.userGroups.length < 1 ? (
-        <div className="no_chat_notification">No Groups Found</div>
+      {!select ? (
+        <ClipLoader color="#00bfa5" css={override} size={30} />
+      ) : !select.userGroups ? (
+        <ClipLoader color="#00bfa5" css={override} size={30} />
+      ) : select.userGroups.length < 1 ? (
+        <div className="no_chat_notification">No groups found</div>
       ) : (
-        userData.userData.userGroups.map((e, index) => (
+        select.userGroups.data.map((e, index) => (
           <Link
             className="sidebar-contact"
             to={`/group/${e._id}`}
@@ -35,7 +60,7 @@ const GetGroups = (userData) => {
           >
             <div className="sidebar-contact__avatar-wrapper">
               <img
-                src={e.groupProfile}
+                src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.groupProfile}`}
                 //   alt={userData.userDetails.profileImage}
                 className="avatar"
               />

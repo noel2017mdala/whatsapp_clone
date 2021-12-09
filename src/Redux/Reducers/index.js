@@ -8,6 +8,7 @@ import commonGroups from "./commonGroupsReducer";
 import groupMessages from "./GroupMessages";
 import fetchFullContactList from "./fetchFullContactList";
 import sideBarReducer from "./sideBarReducer";
+import userGroups from "./userGroupRecer";
 import userState from "./UserState";
 const rootReducer = combineReducers({
   fetchContactList,
@@ -20,5 +21,6 @@ const rootReducer = combineReducers({
   commonGroups,
   sideBarReducer,
   userState,
+  userGroups,
 });
 export default rootReducer;

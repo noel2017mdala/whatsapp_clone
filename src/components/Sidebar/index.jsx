@@ -39,6 +39,7 @@ const Sidebar = () => {
   });
 
   const [tabStatus, setTabStatus] = useState(true);
+  let { REACT_APP_SERVER_URL } = process.env;
 
   useEffect(() => {
     dispatch(fetchContactList(userData));
@@ -56,6 +57,7 @@ const Sidebar = () => {
 
   // console.log(userData.unreadMessages);
   // console.log(select.fetchContactList);
+
   const override = css`
     display: block;
     margin: 2em auto;
@@ -110,7 +112,7 @@ const Sidebar = () => {
                   ? ""
                   : !select.userState.data
                   ? ""
-                  : select.userState.data.profileImage
+                  : `${REACT_APP_SERVER_URL}api/v1/users/getImage/${select.userState.data.profileImage}`
               }
               alt={userData.name}
               className="avatar"
@@ -221,13 +223,7 @@ const Sidebar = () => {
           ) : select.fetchContactList.data.length < 1 ? (
             <div className="no_chat_notification">No Groups Found</div>
           ) : (
-            select.fetchContactList.data.map((contact, index) => (
-              <GetGroups
-                key={index}
-                userData={contact}
-                // notificationStatus={userData.unreadMessages}
-              />
-            ))
+            <GetGroups />
           )}
         </div>
       </aside>

@@ -79,7 +79,7 @@ const GroupDetails = (props) => {
           <div className="profile__section profile__section--personal">
             <div className="profile__avatar-wrapper">
               <img
-                src={group.data.groupProfile}
+                src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${group.data.groupProfile}`}
                 alt={group.data.groupName}
                 className="avatar"
               />
@@ -238,7 +238,7 @@ const GroupDetails = (props) => {
                       <div className="profile__group">
                         <div className="profile__group-avatar-wrapper">
                           <img
-                            src={e.profileImage}
+                            src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.profileImage}`}
                             alt={e.name}
                             className="avatar"
                           />
@@ -262,7 +262,7 @@ const GroupDetails = (props) => {
                     <div className="profile__group" key={e.id}>
                       <div className="profile__group-avatar-wrapper">
                         <img
-                          src={e.profileImage}
+                          src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.profileImage}`}
                           alt={e.name}
                           className="avatar"
                         />

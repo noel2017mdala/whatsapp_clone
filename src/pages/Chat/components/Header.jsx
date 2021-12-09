@@ -25,10 +25,15 @@ import Cookie from "universal-cookie";
 const Header = ({ user, openProfileSidebar, openSearchSidebar }) => {
   // console.log(user);
   const { id } = useParams();
+  let { REACT_APP_SERVER_URL } = process.env;
   return (
     <header className="header chat__header">
       <div className="chat__avatar-wrapper" onClick={openProfileSidebar}>
-        <img src={user.profileImage} alt={user?.name} className="avatar" />
+        <img
+          src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${user.profileImage}`}
+          alt={user?.name}
+          className="avatar"
+        />
       </div>
 
       <div className="chat__contact-wrapper" onClick={openProfileSidebar}>
