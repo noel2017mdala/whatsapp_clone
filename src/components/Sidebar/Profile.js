@@ -67,7 +67,10 @@ const UserProfile = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        changeUiState(false);
+        setDisableButton(false);
+        notifyError("Failed to upload image please try again later");
+        // console.log(err);
       });
   };
   return (
@@ -89,7 +92,7 @@ const UserProfile = (props) => {
           <div className="profile__section profile__section--personal">
             <div className="profile__avatar-wrapper">
               <img
-                src={select.userState.data.profileImage}
+                src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${select.userState.data.profileImage}`}
                 alt={select.userState.data.name}
                 className="avatar"
               />

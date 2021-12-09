@@ -4,6 +4,7 @@ import { getUserDAta } from "utils/userData";
 export const GET_GROUP_INFO = "GET_GROUP_INFO";
 export const GET_GROUP_MESSAGES = "GET_GROUP_MESSAGES";
 export const GET_COMMON_GROUPS = "GET_COMMON_GROUPS";
+export const USER_GROUPS = "USER_GROUPS";
 let { REACT_APP_SERVER_URL } = process.env;
 export const getGroupData = (id) => {
   if (id) {
@@ -79,6 +80,31 @@ export const getCommonGroups = (ids) => {
           if (res.data) {
             // console.log(res.data);
             dispatch({ type: GET_COMMON_GROUPS, payLoad: res.data });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }
+};
+
+export const getUserGroups = (id) => {
+  if (id) {
+    let url = `${REACT_APP_SERVER_URL}api/v1/group/userGroups/${id}`;
+
+    return async (dispatch) => {
+      axios
+        .get(url, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
+        .then((res) => {
+          if (res.data) {
+            // console.log(res.data);
+            dispatch({ type: USER_GROUPS, payLoad: res.data });
           }
         })
         .catch((err) => {

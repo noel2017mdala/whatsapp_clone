@@ -102,7 +102,7 @@ const CreateGroup = (props) => {
                       <img
                         src={
                           e.profileImage
-                            ? e.profileImage
+                            ? `${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.profileImage}`
                             : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
                         }
                         alt={e.profileImage}

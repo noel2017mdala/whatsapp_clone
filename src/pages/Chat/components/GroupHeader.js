@@ -5,7 +5,7 @@ import { getUserDAta } from "utils/userData";
 
 const GroupHeader = (props) => {
   const { userDetails, openProfileSidebar, openSearchSidebar } = props;
-
+  let { REACT_APP_SERVER_URL } = process.env;
   return (
     <header className="header chat__header">
       {!userDetails.data ? (
@@ -14,7 +14,7 @@ const GroupHeader = (props) => {
         <>
           <div className="chat__avatar-wrapper" onClick={openProfileSidebar}>
             <img
-              src={userDetails.data.groupProfile}
+              src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${userDetails.data.groupProfile}`}
               alt={userDetails.data.groupName}
               className="avatar"
             />

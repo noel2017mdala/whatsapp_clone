@@ -41,7 +41,7 @@ const GetContact = ({ userData, notificationStatus }) => {
             <img
               src={
                 userData.userDetails.profileImage
-                  ? userData.userDetails.profileImage
+                  ? `${REACT_APP_SERVER_URL}api/v1/users/getImage/${userData.userDetails.profileImage}`
                   : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
               }
               alt={userData.userDetails.profileImage}

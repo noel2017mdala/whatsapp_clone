@@ -23,12 +23,16 @@ const Profile = ({ user, history }) => {
       })
     );
   }, []);
-
+  let { REACT_APP_SERVER_URL } = process.env;
   return (
     <div className="profile">
       <div className="profile__section profile__section--personal">
         <div className="profile__avatar-wrapper">
-          <img src={user.profileImage} alt={user.name} className="avatar" />
+          <img
+            src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${user.profileImage}`}
+            alt={user.name}
+            className="avatar"
+          />
         </div>
         <h2 className="profile__name"> {user.name} </h2>
       </div>
@@ -124,7 +128,11 @@ const Profile = ({ user, history }) => {
             <Link to={`/group/${e._id}`} key={index}>
               <div className="profile__group" key={index}>
                 <div className="profile__group-avatar-wrapper">
-                  <img src={e.groupProfile} alt="Group 3" className="avatar" />
+                  <img
+                    src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.groupProfile}`}
+                    alt="Group 3"
+                    className="avatar"
+                  />
                 </div>
                 <div className="profile__group-content">
                   <p className="profile__group-text profile__group-text--top">

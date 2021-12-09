@@ -12,9 +12,19 @@ const Loader = ({ done }) => {
         className={`loader__progress ${done ? "loader__progress--done" : ""}`}
       ></div>
       <h1 className="loader__title"> Whatsapp</h1>
+<<<<<<< HEAD
       <p className="loader__desc">
         <Icon id="lock" className="loader__icon" />
         {/* End-to-end encrypted. Built by Karen Okonkwo. */}
+=======
+      {/* <p className="loader__desc">
+				<Icon id="lock" className="loader__icon" />
+				End-to-end encrypted. Built by Karen Okonkwo.
+			</p> */}
+
+      <p className="loader__desc">
+        <Icon id="lock" className="loader__icon" />
+>>>>>>> dev_branch
         End-to-end encrypted. Built by Abel Mdala.
       </p>
     </div>

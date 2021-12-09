@@ -22,6 +22,8 @@ const AddGroupUsers = () => {
   let [checkedUsers, setCheckedUsers] = useState([]);
   let [loader, setLoader] = useState(false);
 
+  let { REACT_APP_SERVER_URL } = process.env;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,8 +33,6 @@ const AddGroupUsers = () => {
   let select = useSelector((e) => {
     return e;
   });
-
-  let { REACT_APP_SERVER_URL } = process.env;
 
   const override = css`
     display: block;
@@ -130,7 +130,7 @@ const AddGroupUsers = () => {
                       <img
                         src={
                           e.profileImage
-                            ? e.profileImage
+                            ? `${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.profileImage}`
                             : `${REACT_APP_SERVER_URL}public/userProfiles/defaultProfile.jpg`
                         }
                         alt={e.profileImage}
