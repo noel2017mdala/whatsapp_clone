@@ -32,6 +32,18 @@ const GroupProfile = (props) => {
     });
   };
 
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const uploadFile = (e) => {
     e.preventDefault();
     setDisableButton(true);
@@ -45,11 +57,11 @@ const GroupProfile = (props) => {
     // console.log(fData);
 
     if (file === undefined) {
-      notifySuccess("Please select an image");
+      notifyError("Please select an image");
       setDisableButton(false);
       return;
     } else if (description === undefined) {
-      notifySuccess("Please add group name");
+      notifyError("Please add group name");
       setDisableButton(false);
     } else {
       axios

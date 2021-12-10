@@ -103,8 +103,30 @@ export const getUserGroups = (id) => {
         })
         .then((res) => {
           if (res.data) {
-            // console.log(res.data);
             dispatch({ type: USER_GROUPS, payLoad: res.data });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }
+};
+
+export const getGroupLastMessage = (id) => {
+  if (id) {
+    let url = `${REACT_APP_SERVER_URL}api/v1/group/groupLastMessage/${id}`;
+    return async (dispatch) => {
+      axios
+        .get(url, {
+          headers: {
+            "access-token": generateToken(),
+            "user-id": getUserDAta()._id,
+          },
+        })
+        .then((res) => {
+          if (res.data) {
+            console.log(res.data);
           }
         })
         .catch((err) => {

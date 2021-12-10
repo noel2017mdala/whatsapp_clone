@@ -60,6 +60,7 @@ const CreateContacts = (props) => {
       const createUserData = await createUser(id, userContact);
 
       if (createUserData) {
+        console.log(createUserData);
         if (createUserData.status) {
           notifySuccess(createUserData.message);
           setDisableButton(false);
