@@ -13,6 +13,7 @@ import { getUserDAta } from "utils/userData";
 import {
   getGroupData,
   getGroupMessages,
+  getGroupLastMessage,
 } from "../../Redux/Actions/groupAction";
 import { getUserGroups } from "../../Redux/Actions/groupAction";
 
@@ -39,6 +40,10 @@ const GetGroups = (userData) => {
     border-color: #00bfa5;
   `;
 
+  const getGroupLastMessages = (id) => {
+    // dispatch(getGroupLastMessage(id));
+    return `Group Message ${id}`;
+  };
   let { REACT_APP_SERVER_URL } = process.env;
   return (
     <>
@@ -80,7 +85,7 @@ const GetGroups = (userData) => {
                     className={`sidebar-contact__message-icon read`}
                   />
                   <span className="sidebar-contact__message  sidebar-contact__message--unread">
-                    {"Group Message"}
+                    {getGroupLastMessages(e._id)}
                   </span>
                 </p>
                 <div className="sidebar-contact__icons">
