@@ -40,11 +40,8 @@ const GetGroups = (userData) => {
     border-color: #00bfa5;
   `;
 
-  const getGroupLastMessages = (id) => {
-    // dispatch(getGroupLastMessage(id));
-    return `Group Message ${id}`;
-  };
   let { REACT_APP_SERVER_URL } = process.env;
+
   return (
     <>
       {!select ? (
@@ -78,15 +75,43 @@ const GetGroups = (userData) => {
                 </span>
               </div>
               <div className="sidebar-contact__bottom-content">
-                <p className="sidebar-contact__message-wrapper">
-                  <Icon
-                    id="doubleTick"
-                    //   aria-label={userData.userLastMessage?.messageStatus}
-                    className={`sidebar-contact__message-icon read`}
-                  />
+                {/* <p className="sidebar-contact__message-wrapper">
+                  {getUserDAta()._id === e.groupLastMessage.from ? (
+                    <Icon
+                      id="doubleTick"
+                      //   aria-label={userData.userLastMessage?.messageStatus}
+                      className={`sidebar-contact__message-icon read`}
+                    />
+                  ) : (
+                    ""
+                  )}
                   <span className="sidebar-contact__message  sidebar-contact__message--unread">
-                    {getGroupLastMessages(e._id)}
+                    {e.groupLastMessage.messagesBody}
                   </span>
+                </p> */}
+
+                <p className="sidebar-contact__message-wrapper">
+                  {!e.groupLastMessage ? (
+                    e.createdBy === getUserDAta()._id ? (
+                      `You created the group ${e.groupName}`
+                    ) : (
+                      `You were added to a group ${e.groupName}`
+                    )
+                  ) : !e.groupLastMessage ? (
+                    e.createdBy === getUserDAta()._id ? (
+                      `You created the group ${e.groupName}`
+                    ) : (
+                      `You were added to a group ${e.groupName}`
+                    )
+                  ) : getUserDAta()._id === e.groupLastMessage.from ? (
+                    <Icon
+                      id="doubleTick"
+                      //   aria-label={userData.userLastMessage?.messageStatus}
+                      className={`sidebar-contact__message-icon read`}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </p>
                 <div className="sidebar-contact__icons">
                   <span key={index} className="sidebar-contact__unread">
