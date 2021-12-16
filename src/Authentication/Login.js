@@ -1,97 +1,80 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Router, Redirect } from "react-router-dom";
 import { logIn } from "Redux/Actions/createUser";
 import { ToastContainer, toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "@emotion/react";
-let { REACT_APP_SERVER_URL } = process.env;
+
 const Login = () => {
-  //dispatch variable
-  const dispatch = useDispatch();
-  // const gegEx = /^[+-]?\d*(?:[.,]\d*)?$/;
-  // const regEX = /^[0-9]*$/;
+  const [loginState, setLoginState] = useState(false);
   const regEx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  const dispatch = useDispatch();
 
   const [uiState, setUi] = useState({
     email: "",
     password: "",
   });
 
-  const override = css`
-    // display: block;
-    // margin: 2em auto;
-    // border-color: #00bfa5;
-  `;
+  const [errorState, setErrorState] = useState({
+    phoneNumberErr: false,
+    passwordErr: false,
+  });
+  let notify = {
+    success: (message) => {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    },
 
-  const [loginState, setLoginState] = useState(false);
-
-  const notifySuccess = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    fail: (message) => {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 9000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    },
   };
 
-  const notifyError = (message) => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const userContact = (e) => {
-    setUi((prevState) => ({
-      ...prevState,
-      email: e.target.value,
-    }));
-  };
-
-  const userPassword = (e) => {
-    setUi((prevState) => ({
-      ...prevState,
-      password: e.target.value,
-    }));
-  };
-  let handleForm = (e) => {
-    e.preventDefault();
-    setLoginState(true);
-    if (uiState.email === "" || uiState.password === "") {
-      notifyError("All input values are required");
-      setLoginState(false);
+  const validateLogin = () => {
+    if (uiState.email === "" && uiState.password === "") {
+      setErrorState({
+        phoneNumberErr: true,
+        passwordErr: true,
+      });
+    } else if (uiState.email === "") {
+      setErrorState({
+        phoneNumberErr: true,
+      });
+    } else if (uiState.password === "") {
+      setErrorState({
+        passwordErr: true,
+      });
     } else if (!regEx.test(uiState.email)) {
-      notifyError("Please enter a valid phone number");
-      setUi((prevState) => ({
-        ...prevState,
-        email: "",
-        password: "",
-      }));
-      setLoginState(false);
+      setErrorState({
+        ...errorState,
+        phoneNumberErr: true,
+      });
     } else {
       dispatch(
         logIn(uiState, (result) => {
+          console.log(result);
           if (result) {
-            notifySuccess("Login Success");
+            notify.success("Login Success");
             setUi((prevState) => ({
               ...prevState,
               email: "",
               password: "",
             }));
           } else {
-            notifyError(
-              "There was a problem with your login please try again later."
-            );
+            notify.fail("There was a problem with your login please try again");
             setUi((prevState) => ({
               ...prevState,
               email: "",
@@ -107,54 +90,157 @@ const Login = () => {
   const select = useSelector((e) => {
     return e;
   });
-
+  const validate = (input) => {
+    if (/^\s/.test(input.target.value) && input.target.value !== undefined) {
+      input.target.value = "";
+    }
+  };
   return (
     <>
       {select.LoginValidator ? (
         window.location.reload()
       ) : (
-        <div className="formContainer">
-          <form>
-            <label>Phone number</label>
-            <input
-              type="text"
-              name="email"
-              value={uiState.email}
-              placeholder="Phone number"
-              onChange={userContact}
-              onPaste={userContact}
-            />
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={uiState.password}
-              placeholder="password"
-              onChange={userPassword}
-              onPaste={userPassword}
-            />
-            <button
-              type="submit"
-              onClick={handleForm}
-              disabled={loginState ? "disabled" : ""}
-              style={
-                loginState
-                  ? {
-                      cursor: "not-allowed",
-                    }
-                  : {}
-              }
-            >
-              {loginState ? (
-                <ClipLoader color="#FFFFFF" css={override} size={30} />
-              ) : (
-                "Login"
-              )}
-            </button>
+        <div className="w-full sm:max-w-xs md:max-w-md m-auto pb-4">
+          <form className="bg-white rounded px-8 pt-6 pb-8 mb-4 dark:bg-darkSecondary">
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2 uppercase dark:text-white">
+                phone number
+              </label>
+              <input
+                className={`
+                  shadow
+                  appearance-none
+                  border
+                  rounded
+                  w-full
+                  py-3
+                  px-3
+                  text-gray-500
+                  leading-tight
+                  focus:outline-none focus:shadow-outline
+                  dark:text-white
+                  dark:shadow-lg
+
+                  ${
+                    errorState.phoneNumberErr
+                      ? ` border-solid
+                  border-red-500
+                    border-3`
+                      : null
+                  }
+  `}
+                id="username"
+                type="text"
+                value={uiState.email}
+                placeholder="phone number"
+                onInput={validate}
+                onChange={(e) => {
+                  setUi({
+                    ...uiState,
+                    email: e.target.value,
+                  });
+
+                  setErrorState({
+                    ...errorState,
+                    phoneNumberErr: false,
+                    passwordErr: false,
+                  });
+                }}
+              />
+
+              <p className="text-red-500 text-sm italic pt-3">
+                {errorState.phoneNumberErr
+                  ? "Please enter a valid Phone number."
+                  : null}
+              </p>
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2 uppercase dark:text-white">
+                Password
+              </label>
+              <input
+                className={`
+                  shadow
+                  appearance-none
+                  // border border-red-500
+                  rounded
+                  w-full
+                  py-3
+                  px-3
+                  text-gray-500
+                  mb-3
+                  leading-tight
+                  focus:outline-none 
+                  focus:shadow-outline
+                  dark:text-white
+                  
+
+                  ${
+                    errorState.passwordErr
+                      ? ` border-solid
+                  border-red-500
+                    border-3`
+                      : null
+                  }
+                `}
+                id="password"
+                type="password"
+                value={uiState.password}
+                placeholder="******************"
+                onInput={validate}
+                onChange={(e) => {
+                  setUi({
+                    ...uiState,
+                    password: e.target.value,
+                  });
+
+                  setErrorState({
+                    ...errorState,
+                    phoneNumberErr: false,
+                    passwordErr: false,
+                  });
+                }}
+              />
+              <p className="text-red-500 text-sm italic pt-3">
+                {errorState.passwordErr
+                  ? "Please enter a valid password."
+                  : null}
+              </p>
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                className="
+                  bg-main
+                  text-white
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                  focus:outline-none focus:shadow-outline
+                  shadow
+                hover:bg-mainHover"
+                type="button"
+                onClick={validateLogin}
+              >
+                Sign In
+              </button>
+              <a
+                className="
+                  inline-block
+                  align-baseline
+                  font-bold
+                  text-sm text-blue-500
+                  hover:text-blue-800
+                "
+                href="#"
+              >
+                Forgot Password?
+              </a>
+            </div>
           </form>
+          <ToastContainer />
         </div>
       )}
-      <ToastContainer />
     </>
   );
 };

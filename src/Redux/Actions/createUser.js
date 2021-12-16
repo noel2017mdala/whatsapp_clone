@@ -45,9 +45,8 @@ export const createUser = (userData) => {
     .post(url, userData)
     .then((res) => {
       return {
-        response: res.data,
-        status: true,
-        message: "User created Successfully",
+        status: res.data.result.status,
+        message: res.data.result.message,
       };
     })
     .catch((err) => {

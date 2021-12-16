@@ -12,15 +12,21 @@ const Loader = ({ done }) => {
         className={`loader__progress ${done ? "loader__progress--done" : ""}`}
       ></div>
       <h1 className="loader__title"> Whatsapp</h1>
+      <div className="flex flex-row">
+        <Icon id="lock" className="loader__icon" />
+        <p className="loader__desc">
+          End-to-end encrypted. Built by Abel Mdala.
+        </p>
+      </div>
       {/* <p className="loader__desc">
-				<Icon id="lock" className="loader__icon" />
-				End-to-end encrypted. Built by Karen Okonkwo.
-			</p> */}
+        End-to-end encrypted. Built by Karen Okonkwo.
+        <Icon id="lock" className="loader__icon" />
+      </p> */}
 
-      <p className="loader__desc">
+      {/* <p className="loader__desc">
         <Icon id="lock" className="loader__icon" />
         End-to-end encrypted. Built by Abel Mdala.
-      </p>
+      </p> */}
     </div>
   );
 };
