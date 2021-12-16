@@ -74,7 +74,6 @@ const Login = () => {
     } else {
       dispatch(
         logIn(uiState, (result) => {
-          console.log(result);
           if (result) {
             notify.success("Login Success");
             setUi((prevState) => ({
