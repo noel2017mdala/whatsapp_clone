@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { createUser } from "Redux/Actions/createUser";
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/react";
+import "react-toastify/dist/ReactToastify.css";
 import { validate as validateEmail } from "react-email-validator";
 const CreateAccount = (props) => {
   const { state, method } = props.tabs;
@@ -12,12 +15,19 @@ const CreateAccount = (props) => {
     password: "",
   });
 
+  const override = css`
+    display: block;
+    border-color: #ffffff;
+  `;
+
   const [errorState, setErrorState] = useState({
     nameErr: false,
     emailErr: false,
     phoneNumberErr: false,
     passwordErr: false,
   });
+
+  const [loginState, setLoginState] = useState(false);
 
   const [specChar, setSpecChar] = useState({
     nameErr: false,
@@ -31,6 +41,8 @@ const CreateAccount = (props) => {
   };
 
   const validateForm = async (e) => {
+    e.preventDefault();
+    setLoginState(true);
     if (
       uiState.name === "" &&
       uiState.email === "" &&
@@ -44,6 +56,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: true,
         passwordErr: true,
       });
+      setLoginState(false);
     } else if (uiState.name === "") {
       setErrorState({
         ...errorState,
@@ -52,6 +65,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: false,
         passwordErr: false,
       });
+      setLoginState(false);
     } else if (uiState.email === "") {
       setErrorState({
         ...errorState,
@@ -60,6 +74,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: false,
         passwordErr: false,
       });
+      setLoginState(false);
     } else if (uiState.phoneNumber === "") {
       setErrorState({
         ...errorState,
@@ -68,6 +83,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: true,
         passwordErr: false,
       });
+      setLoginState(false);
     } else if (uiState.password === "") {
       setErrorState({
         ...errorState,
@@ -76,6 +92,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: false,
         passwordErr: true,
       });
+      setLoginState(false);
     } else if (!regEx.test(uiState.phoneNumber)) {
       setErrorState({
         ...errorState,
@@ -84,6 +101,7 @@ const CreateAccount = (props) => {
         phoneNumberErr: true,
         passwordErr: false,
       });
+      setLoginState(false);
     } else if (validateEmail(uiState.email) === false) {
       setErrorState({
         ...errorState,
@@ -92,16 +110,19 @@ const CreateAccount = (props) => {
         phoneNumberErr: false,
         passwordErr: false,
       });
+      setLoginState(false);
     } else if (uiState.name.length < 4) {
       setSpecChar({
         ...specChar,
         nameErr: true,
       });
+      setLoginState(false);
     } else if (uiState.password.length < 5) {
       setSpecChar({
         ...specChar,
         passwordErr: true,
       });
+      setLoginState(false);
     } else {
       let response = await createUser(uiState);
 
@@ -117,6 +138,7 @@ const CreateAccount = (props) => {
             phoneNumber: "",
             password: "",
           });
+          setLoginState(false);
           notify.fail(response.message);
         } else {
           notify.success(response.message);
@@ -421,8 +443,19 @@ const CreateAccount = (props) => {
                 hover:bg-mainHover"
             type="button"
             onClick={validateForm}
+            style={
+              loginState
+                ? {
+                    cursor: "not-allowed",
+                  }
+                : null
+            }
           >
-            Create Account
+            {loginState ? (
+              <ClipLoader color="#FFFFFF" css={override} size={30} />
+            ) : (
+              "Create Account"
+            )}
           </button>
           <a
             className="

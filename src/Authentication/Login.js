@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "Redux/Actions/createUser";
 import { ToastContainer, toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/react";
 
 const Login = () => {
   const [loginState, setLoginState] = useState(false);
+
   const regEx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   const dispatch = useDispatch();
 
@@ -43,25 +46,31 @@ const Login = () => {
     },
   };
 
-  const validateLogin = () => {
+  const validateLogin = (e) => {
+    e.preventDefault();
+    setLoginState(true);
     if (uiState.email === "" && uiState.password === "") {
       setErrorState({
         phoneNumberErr: true,
         passwordErr: true,
       });
+      setLoginState(false);
     } else if (uiState.email === "") {
       setErrorState({
         phoneNumberErr: true,
       });
+      setLoginState(false);
     } else if (uiState.password === "") {
       setErrorState({
         passwordErr: true,
       });
+      setLoginState(false);
     } else if (!regEx.test(uiState.email)) {
       setErrorState({
         ...errorState,
         phoneNumberErr: true,
       });
+      setLoginState(false);
     } else {
       dispatch(
         logIn(uiState, (result) => {
@@ -90,6 +99,12 @@ const Login = () => {
   const select = useSelector((e) => {
     return e;
   });
+
+  const override = css`
+    display: block;
+    border-color: #ffffff;
+  `;
+
   const validate = (input) => {
     if (/^\s/.test(input.target.value) && input.target.value !== undefined) {
       input.target.value = "";
@@ -221,8 +236,20 @@ const Login = () => {
                 hover:bg-mainHover"
                 type="button"
                 onClick={validateLogin}
+                disabled={loginState ? "disabled" : ""}
+                style={
+                  loginState
+                    ? {
+                        cursor: "not-allowed",
+                      }
+                    : null
+                }
               >
-                Sign In
+                {loginState ? (
+                  <ClipLoader color="#FFFFFF" css={override} size={30} />
+                ) : (
+                  "Sign In"
+                )}
               </button>
               <a
                 className="
