@@ -1,20 +1,13 @@
 import React from "react";
-import logo1 from "./icons/whatsapp2.png";
-import { Header, Main } from "./styles";
-import Form from "./loginForm";
-import FormContainer from "./FormContainer";
+import Header from "./header";
+import Form from "./form";
 
 const Login = () => {
   return (
-    <Main>
-      <Header>
-        <div className="whatsapLogo">
-          <img src={logo1} alt="logo" />
-          <p>Whatsapp Web</p>
-        </div>
-      </Header>
-      <FormContainer />
-    </Main>
+    <div className="dark:bg-darkMain">
+      <Header />
+      <Form />
+    </div>
   );
 };
 

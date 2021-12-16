@@ -91,27 +91,24 @@ const GetGroups = (userData) => {
                 </p> */}
 
                 <p className="sidebar-contact__message-wrapper">
-                  {!e.groupLastMessage ? (
-                    e.createdBy === getUserDAta()._id ? (
-                      `You created the group ${e.groupName}`
-                    ) : (
-                      `You were added to a group ${e.groupName}`
-                    )
-                  ) : !e.groupLastMessage ? (
-                    e.createdBy === getUserDAta()._id ? (
-                      `You created the group ${e.groupName}`
-                    ) : (
-                      `You were added to a group ${e.groupName}`
-                    )
-                  ) : getUserDAta()._id === e.groupLastMessage.from ? (
-                    <Icon
-                      id="doubleTick"
-                      //   aria-label={userData.userLastMessage?.messageStatus}
-                      className={`sidebar-contact__message-icon read`}
-                    />
-                  ) : (
-                    ""
-                  )}
+                  <Icon
+                    id="doubleTick"
+                    //   aria-label={userData.userLastMessage?.messageStatus}
+                    className={`sidebar-contact__message-icon read`}
+                  />
+                  <span className="sidebar-contact__message  sidebar-contact__message--unread">
+                    {!e.groupLastMessage
+                      ? e.createdBy === getUserDAta()._id
+                        ? `You created the group ${e.groupName}`
+                        : `You were added to a group ${e.groupName}`
+                      : !e.groupLastMessage
+                      ? e.createdBy === getUserDAta()._id
+                        ? `You created the group ${e.groupName}`
+                        : `You were added to a group ${e.groupName}`
+                      : getUserDAta()._id === e.groupLastMessage.from
+                      ? `${e.groupLastMessage.messagesBody}`
+                      : ""}
+                  </span>
                 </p>
                 <div className="sidebar-contact__icons">
                   <span key={index} className="sidebar-contact__unread">

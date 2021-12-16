@@ -1,7 +1,7 @@
 import React from "react";
 import qrCode from "./icons/qrcode.png";
 import { Modal } from "./styles/Modal";
-import Form from "./loginForm";
+import Form from "./LoginForm";
 
 const FormContainer = () => {
   return (
