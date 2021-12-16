@@ -4,8 +4,12 @@ import { logIn } from "Redux/Actions/createUser";
 import { ToastContainer, toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const Login = () => {
+  const MySwal = withReactContent(Swal);
+
   const [loginState, setLoginState] = useState(false);
 
   const regEx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -257,8 +261,16 @@ const Login = () => {
                   font-bold
                   text-sm text-blue-500
                   hover:text-blue-800
+                  cursor-pointer
                 "
-                href="#"
+                onClick={() => {
+                  MySwal.fire({
+                    icon: "info",
+                    title: "Oops...",
+                    text: "This feature will be available shortly",
+                    confirmButtonColor: "#00BFA5",
+                  });
+                }}
               >
                 Forgot Password?
               </a>
