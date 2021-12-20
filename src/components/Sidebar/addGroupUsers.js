@@ -152,7 +152,7 @@ const AddGroupUsers = () => {
                             e._id.toString()
                           )
                             ? "Already added to the group"
-                            : "user status"}
+                            : e.userAbout}
                         </p>
                       </div>
                     </div>

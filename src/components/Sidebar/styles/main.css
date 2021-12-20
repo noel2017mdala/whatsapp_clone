@@ -174,15 +174,16 @@ input[type="file"] {
 
 .profile_btn {
   position: absolute;
-  top: 41%;
-  left: 23%;
+  top: 37%;
+  left: 20%;
   color: white;
   background-color: #00bfa5;
-  padding: 1em;
+  padding: 0.6em;
   display: block;
   text-align: center;
   border-radius: 5px;
   transition: 0.2s ease-in-out 0s;
+  cursor: pointer;
 }
 
 .profile_btn:hover {
