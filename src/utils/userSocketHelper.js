@@ -22,7 +22,12 @@ messageNotification.load();
 socket.on("demo", (id, userDetails) => {
   store.dispatch(getAllMessages(userDetails.userData, userDetails.userId));
   store.dispatch(fetchContactList(userData));
-  messageNotification.play();
+  // messageNotification.play();
+});
+
+socket.on("demoBroadcast", (id, userDetails) => {
+  store.dispatch(getAllMessages(userDetails.userData, userDetails.userId));
+  store.dispatch(fetchContactList(userData));
 });
 
 socket.on("re-fresh-contact", (data) => {
@@ -35,7 +40,7 @@ socket.on("receive-group-message", (message) => {
 });
 
 socket.on("receive-group-message-notification", (data) => {
-  messageReceiveNotification.play();
+  // messageReceiveNotification.play();
 });
 
 socket.on("user_receive_sent_message", (data) => {
