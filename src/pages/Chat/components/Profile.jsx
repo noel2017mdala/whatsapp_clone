@@ -124,31 +124,35 @@ const Profile = ({ user, history }) => {
         ) : select.commonGroups.data < 1 ? (
           <p className="common_group">No groups Found</p>
         ) : (
-          select.commonGroups.data.map((e, index) => (
-            <Link to={`/group/${e._id}`} key={index}>
-              <div className="profile__group" key={index}>
-                <div className="profile__group-avatar-wrapper">
-                  <img
-                    src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.groupProfile}`}
-                    alt="Group 3"
-                    className="avatar"
-                  />
+          select.commonGroups.data.map((e, index) =>
+            e ? (
+              <Link to={`/group/${e._id}`} key={index}>
+                <div className="profile__group" key={index}>
+                  <div className="profile__group-avatar-wrapper">
+                    <img
+                      src={`${REACT_APP_SERVER_URL}api/v1/users/getImage/${e.groupProfile}`}
+                      alt="Group 3"
+                      className="avatar"
+                    />
+                  </div>
+                  <div className="profile__group-content">
+                    <p className="profile__group-text profile__group-text--top">
+                      {e.groupName}
+                    </p>
+                    <p className="profile__group-text profile__group-text--bottom">
+                      {e.groupUsers.map((user, index) => {
+                        return `${user.name} ${
+                          select.commonGroups.data.length - 2 >= index
+                            ? ","
+                            : ""
+                        } `;
+                      })}
+                    </p>
+                  </div>
                 </div>
-                <div className="profile__group-content">
-                  <p className="profile__group-text profile__group-text--top">
-                    {e.groupName}
-                  </p>
-                  <p className="profile__group-text profile__group-text--bottom">
-                    {e.groupUsers.map((user, index) => {
-                      return `${user.name} ${
-                        select.commonGroups.data.length - 2 >= index ? "," : ""
-                      } `;
-                    })}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))
+              </Link>
+            ) : null
+          )
         )}
       </div>
 

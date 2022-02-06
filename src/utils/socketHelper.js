@@ -17,7 +17,7 @@ const sendMessage = (data, userDetails) => {
   // console.log(userDetails.userData);
   // console.log(userData);
   // console.log("i have received a message");
-  messageNotification.play();
+  // messageNotification.play();
   store.dispatch(getAllMessages(userDetails.userData, userDetails.userId));
   store.dispatch(fetchContactList(userData));
   // socket.emit("refresh-user");
